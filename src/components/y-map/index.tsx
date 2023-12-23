@@ -1,44 +1,18 @@
 import { Clusterer, Map, Placemark, YMaps } from '@pbe/react-yandex-maps';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { placemarks } from '../../__data__/smoke';
+import { YMapWrapper } from '../../styles/main';
 
 export const YMap = () => {
-  const features = [
-    {
-      type: 'Feature',
-      id: '3',
-      geometry: {
-        type: 'Point',
-        coordinates: [43.595861, 39.730634],
-      },
-      properties: {
-        hintContent: 'Описание для точки 1',
-        iconContent: '1',
-      },
-    },
-    {
-      type: 'Feature',
-      id: '2',
-      geometry: {
-        type: 'Point',
-        coordinates: [43.598022, 39.727966],
-      },
-      properties: {
-        hintContent: 'Описание для точки 2',
-        iconContent: '2',
-      },
-    },
-  ];
-
   const handlePlacemarkClick = (markId: string) => {
     console.log(markId);
   };
 
   return (
-    <>
+    <YMapWrapper>
       <YMaps>
         <Map
-          style={{ width: '800px', height: '800px' }}
           defaultState={{ center: [43.6017215, 39.7251289], zoom: 10 }}
+          style={{ height: '100vh' }}
         >
           <Clusterer
             options={{
@@ -46,23 +20,22 @@ export const YMap = () => {
               groupByCoordinates: false,
             }}
           >
-            <FaMapMarkerAlt />
-            {features.map((feature) => (
+            {placemarks.map((placemark) => (
               <Placemark
-                key={feature.id}
-                geometry={feature.geometry}
-                properties={feature.properties}
+                key={placemark.id}
+                geometry={placemark.geometry}
+                properties={placemark.properties}
                 modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
                 options={{
                   iconLayout: 'default#image',
-                  iconImageHref: '/path/to/newIcon.png',
+                  iconImageHref: '/placemark.svg',
                 }}
-                onClick={() => handlePlacemarkClick(feature.id)}
+                onClick={() => handlePlacemarkClick(placemark.id)}
               />
             ))}
           </Clusterer>
         </Map>
       </YMaps>
-    </>
+    </YMapWrapper>
   );
 };
