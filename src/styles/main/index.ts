@@ -1,7 +1,4 @@
-import {
-  Image,
-  Input, List
-} from '@chakra-ui/react';
+import { Image, Input, List } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`

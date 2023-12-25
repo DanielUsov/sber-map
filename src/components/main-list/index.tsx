@@ -31,6 +31,7 @@ export const MainList = () => {
               size={'sm'}
               background={'#F0F6FE'}
               borderRadius={'10px'}
+              _hover={{ bg: '#E5FFE4' }}
             >
               <CardHeader>{card.title}</CardHeader>
               <CardBody>
