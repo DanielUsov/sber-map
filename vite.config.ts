@@ -8,5 +8,8 @@ export default defineConfig({
     open: true,
     host: 'localhost',
     port: 3000,
+    watch: {
+      usePolling: true,
+    },
   },
 });
