@@ -3,10 +3,12 @@ import { Clusterer, Map, Placemark, YMaps } from '@pbe/react-yandex-maps';
 import { useState } from 'react';
 import { partnersForMain as placemarks } from '../../__data__/smoke';
 import { YMapWrapper } from '../../styles/main';
+import { Loader } from '../loader';
 import { ModelView } from '../modal-view/inex';
 
 export const YMap = () => {
   const [PID, setPID] = useState('');
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handlePlacemarkClick = (markId: string) => {
@@ -14,13 +16,19 @@ export const YMap = () => {
     setPID(markId);
   };
 
+  const handleMapLoad = () => {
+    setIsMapLoaded(true);
+  };
+
   return (
     <>
       <YMapWrapper>
         <YMaps>
+          {isMapLoaded ? null : <Loader />}
           <Map
             defaultState={{ center: [43.6017215, 39.7251289], zoom: 10 }}
             style={{ height: '100vh' }}
+            onLoad={handleMapLoad}
           >
             <Clusterer
               options={{

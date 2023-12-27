@@ -38,7 +38,7 @@ export const MainList = () => {
 
   return (
     <MainListWrapper>
-      <SberFullLogo src="/SBER-full-logo.svg" alt={'SBER logo'} />
+      <SberFullLogo src="/SBER-KIB-logo.svg" alt={'SBER logo'} />
       <Box
         h={'100%'}
         sx={{

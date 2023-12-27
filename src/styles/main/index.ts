@@ -40,8 +40,8 @@ export const StyledList = styled(List)`
 `;
 
 export const SberFullLogo = styled(Image)`
-  width: 182px;
-  height: auto;
+  width: 77px;
+  height: 84px;
   margin-top: 4vh;
 `;
 
