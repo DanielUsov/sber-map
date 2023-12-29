@@ -11,8 +11,6 @@ import {
 import { TPlaces } from '../../@types/partners';
 
 export const ModelView = ({ isOpen, onClose, PID }: any) => {
-  console.log(PID, isOpen);
-
   const fakeP = {
     title: 'OAO <OAO>',
     conditions: ['сделать что-то', 'сделать еще что-то'],
