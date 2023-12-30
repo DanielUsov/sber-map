@@ -1,4 +1,5 @@
 import {
+  Button,
   IconButton,
   Input,
   Tbody,
@@ -9,6 +10,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { IoCreateOutline } from 'react-icons/io5';
 import { MdOutlineEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { TPartnersWithPlacemarks } from '../../@types/partners';
@@ -40,67 +42,100 @@ export const AdminAllPartners = () => {
     setSearchValue(event.target.value);
   };
 
+  const handleExit = (event: any) => {};
+
+  const handleCreate = () => {};
+
   const filteredPartner: TPartnersWithPlacemarks[] =
     searchValue !== ''
       ? partners.filter((partner) => partner.title.includes(searchValue))
       : partners;
 
   return (
-    <AdminAllPartnersWrapper>
-      <div
-        style={{
-          width: '124vh',
-          height: '56vh',
-          border: '2px solid',
-          borderColor: '#21a038',
-          borderRadius: '10px',
-          padding: '5vh',
-        }}
+    <>
+      <Button
+        width={'6vh'}
+        height={'3vh'}
+        color="white"
+        marginTop={'20px'}
+        float={'right'}
+        marginRight={'8px'}
+        bg={'#21a038'}
+        _hover={{ bg: '#21a038' }}
+        onClick={(e) => handleExit(e)}
       >
-        <Input
-          value={searchValue}
-          onChange={handleSearch}
-          placeholder={'Введите компанию партнера'}
-          borderColor={'#7ECC81'}
-          focusBorderColor={'#6cad6e'}
-          borderRadius={'10px'}
-        />
-        <AllPartnersTableContainer
-          maxHeight="90%"
-          overflowY="auto"
-          marginTop={'2vh'}
+        Выход
+      </Button>
+      <AdminAllPartnersWrapper>
+        <div
+          style={{
+            width: '124vh',
+            height: '56vh',
+            border: '2px solid',
+            borderColor: '#21a038',
+            borderRadius: '10px',
+            padding: '4vh',
+          }}
         >
-          <AllPartnersTable size={'lg'} background={'#F0F6FE'}>
-            <Thead>
-              <Tr>
-                <Th>Название компании партнера:</Th>
-                <Th></Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredPartner.flatMap((partner) => (
-                <Tr
-                  background={'#F0F6FE'}
-                  _hover={{ bg: '#E5FFE4' }}
-                  onClick={() => handleClick(partner)}
-                >
-                  <Td fontSize={16}>{partner.title}</Td>
-                  <Td width={'81px'}>
-                    <IconButton
-                      _hover={{ bg: '#21A038' }}
-                      aria-label={'Редактировать'}
-                      onClick={(e) => handleEdit(e, partner)}
-                    >
-                      <MdOutlineEdit />
-                    </IconButton>
-                  </Td>
+          <Input
+            value={searchValue}
+            onChange={handleSearch}
+            placeholder={'Введите компанию партнера'}
+            borderColor={'#7ECC81'}
+            focusBorderColor={'#6cad6e'}
+            borderRadius={'10px'}
+          />
+          <AllPartnersTableContainer
+            maxHeight="90%"
+            overflowY="auto"
+            marginTop={'2vh'}
+          >
+            <AllPartnersTable size={'lg'} background={'#F0F6FE'}>
+              <Thead>
+                <Tr>
+                  <Th>Название компании партнера:</Th>
+                  <Th></Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </AllPartnersTable>
-        </AllPartnersTableContainer>
-      </div>
-      <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
-    </AdminAllPartnersWrapper>
+              </Thead>
+              <Tbody>
+                {filteredPartner.flatMap((partner) => (
+                  <Tr
+                    background={'#F0F6FE'}
+                    _hover={{ bg: '#E5FFE4' }}
+                    onClick={() => handleClick(partner)}
+                  >
+                    <Td fontSize={16}>{partner.title}</Td>
+                    <Td width={'81px'}>
+                      <IconButton
+                        _hover={{ bg: '#21A038' }}
+                        bg={'#F0F6FE'}
+                        aria-label={'Редактировать'}
+                        onClick={(e) => handleEdit(e, partner)}
+                      >
+                        <MdOutlineEdit />
+                      </IconButton>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </AllPartnersTable>
+          </AllPartnersTableContainer>
+        </div>
+        <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
+      </AdminAllPartnersWrapper>
+      <Button
+        width={'16vh'}
+        height={'3vh'}
+        color="white"
+        float={'right'}
+        marginRight={'8px'}
+        bg={'#21a038'}
+        _hover={{ bg: '#21a038' }}
+        onClick={handleCreate}
+        rightIcon={<IoCreateOutline />}
+      >
+        Добавить партнера
+      </Button>
+    </>
   );
 };
