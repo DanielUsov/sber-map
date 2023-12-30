@@ -1,4 +1,4 @@
-export type TPlaces = {
+export type TPlace = {
   address: string;
   coordinates: {
     latitude: number;
@@ -6,8 +6,16 @@ export type TPlaces = {
   };
 };
 
-export type TPartnersWithPlacemarks = {
+export type TPartnerWithPlacemarks = {
   partnerId: string;
   title: string;
-  places: TPlaces[];
+  places: TPlace[];
+};
+
+export type TPartner = {
+  partnerId: string;
+  title: string;
+  conditions: string[];
+  additionalInfo: string;
+  places: TPlace[];
 };
