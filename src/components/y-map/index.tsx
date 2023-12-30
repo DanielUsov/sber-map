@@ -27,7 +27,7 @@ export const YMap = () => {
           {isMapLoaded ? null : <Loader />}
           <Map
             defaultState={{ center: [43.6017215, 39.7251289], zoom: 10 }}
-            style={{ height: '100vh' }}
+            style={{ height: '100%', width: '100%', float: 'right' }}
             onLoad={handleMapLoad}
           >
             <Clusterer

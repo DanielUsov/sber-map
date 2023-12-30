@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { MdOutlineEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { TPartnersWithPlacemarks } from '../../@types/partners';
+import { TPartnerWithPlacemarks } from '../../@types/partners';
 import { partnersForMain as partners } from '../../__data__/smoke';
 import { ModelView } from '../../components/modal-view/inex';
 import {
@@ -28,12 +28,12 @@ export const AdminAllPartners = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
-  const handleClick = (data: TPartnersWithPlacemarks) => {
+  const handleClick = (data: TPartnerWithPlacemarks) => {
     onOpen();
     setPID(data.partnerId);
   };
 
-  const handleEdit = (e: any, data: TPartnersWithPlacemarks) => {
+  const handleEdit = (e: any, data: TPartnerWithPlacemarks) => {
     e.stopPropagation();
     navigate(`/admin/partneredit/${data.partnerId}`);
   };
@@ -44,9 +44,11 @@ export const AdminAllPartners = () => {
 
   const handleExit = (event: any) => {};
 
-  const handleCreate = () => {};
+  const handleCreate = () => {
+    navigate(`/admin/newPartner/0`);
+  };
 
-  const filteredPartner: TPartnersWithPlacemarks[] =
+  const filteredPartner: TPartnerWithPlacemarks[] =
     searchValue !== ''
       ? partners.filter((partner) => partner.title.includes(searchValue))
       : partners;
@@ -84,6 +86,7 @@ export const AdminAllPartners = () => {
             borderColor={'#7ECC81'}
             focusBorderColor={'#6cad6e'}
             borderRadius={'10px'}
+            formNoValidate
           />
           <AllPartnersTableContainer
             maxHeight="90%"

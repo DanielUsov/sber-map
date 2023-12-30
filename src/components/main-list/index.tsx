@@ -3,11 +3,13 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Link as ChakraLink,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { TPartnersWithPlacemarks, TPlaces } from '../../@types/partners';
+import { Link as ReactRouterLink } from 'react-router-dom';
+import { TPartnerWithPlacemarks, TPlace } from '../../@types/partners';
 import { partnersForMain as cards } from '../../__data__/smoke';
 import {
   MainListWrapper,
@@ -22,7 +24,7 @@ export const MainList = () => {
   const [PID, setPID] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleClick = (data: TPartnersWithPlacemarks) => {
+  const handleClick = (data: TPartnerWithPlacemarks) => {
     onOpen();
     setPID(data.partnerId);
   };
@@ -31,7 +33,7 @@ export const MainList = () => {
     setSearchValue(event.target.value);
   };
 
-  const filteredCards: TPartnersWithPlacemarks[] =
+  const filteredCards: TPartnerWithPlacemarks[] =
     searchValue !== ''
       ? cards.filter((card) => card.title.includes(searchValue))
       : cards;
@@ -52,9 +54,10 @@ export const MainList = () => {
           borderColor={'#7ECC81'}
           focusBorderColor={'#6cad6e'}
           borderRadius={'10px'}
+          formNoValidate
         />
         <StyledList spacing={3}>
-          {filteredCards.map((card: TPartnersWithPlacemarks) => (
+          {filteredCards.map((card: TPartnerWithPlacemarks) => (
             <Card
               variant={'elevated'}
               size={'sm'}
@@ -67,7 +70,7 @@ export const MainList = () => {
                 <Text fontSize="18">{card.title}</Text>
               </CardHeader>
               <CardBody>
-                {card.places.map((place: TPlaces) => (
+                {card.places.map((place: TPlace) => (
                   <Text
                     key={
                       place.coordinates.latitude + place.coordinates.longitude
@@ -81,6 +84,13 @@ export const MainList = () => {
             </Card>
           ))}
         </StyledList>
+        <div style={{ marginTop: '0.6vh' }}>
+          <ChakraLink as={ReactRouterLink} to="/admin">
+            <Text color={'#9A9A9A'} fontSize="10">
+              Вы администратор? Перейдите в панель администратора
+            </Text>
+          </ChakraLink>
+        </div>
       </Box>
       <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
     </MainListWrapper>

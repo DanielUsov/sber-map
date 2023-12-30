@@ -8,9 +8,15 @@ import {
   Text,
   Highlight,
 } from '@chakra-ui/react';
-import { TPlaces } from '../../@types/partners';
+import { TPlace } from '../../@types/partners';
 
-export const ModelView = ({ isOpen, onClose, PID }: any) => {
+export type ModelViewProps = {
+  isOpen: any;
+  onClose: any;
+  PID?: string;
+};
+
+export const ModelView = ({ isOpen, onClose, PID }: ModelViewProps) => {
   const fakeP = {
     title: 'OAO <OAO>',
     conditions: ['сделать что-то', 'сделать еще что-то'],
@@ -59,7 +65,7 @@ export const ModelView = ({ isOpen, onClose, PID }: any) => {
           <Text fontSize="18" marginTop="12px">
             Адреса:
           </Text>
-          {fakeP.places.map((place: TPlaces) => (
+          {fakeP.places.map((place: TPlace) => (
             <Text
               key={place.coordinates.latitude + place.coordinates.longitude}
               fontSize="16"

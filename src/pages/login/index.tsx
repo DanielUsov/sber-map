@@ -54,6 +54,7 @@ export const Login = () => {
             focusBorderColor={'#6cad6e'}
             borderRadius={'10px'}
             onChange={(e) => handleFieldChange('login', e.target.value)}
+            formNoValidate
           />
           <Input
             id="password"
@@ -65,6 +66,7 @@ export const Login = () => {
             focusBorderColor={'#6cad6e'}
             borderRadius={'10px'}
             onChange={(e) => handleFieldChange('password', e.target.value)}
+            formNoValidate
           />
         </Stack>
         <Button
