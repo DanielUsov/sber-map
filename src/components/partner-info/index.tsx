@@ -1,24 +1,22 @@
 import { Button, Input, Text, Textarea } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { TRootState } from '../../@types/redux';
 import { PartnerStapper } from '../partner-stapper';
+import { setConditions } from '../../__data__/slices/partner-form';
 
-type TPartnerInfoProps = {
-  oldConditions?: string[];
-  oldAdditionalInfo?: string;
-};
-
-export const PartnerInfo = ({
-  oldConditions = [],
-  oldAdditionalInfo = '',
-}: TPartnerInfoProps) => {
+export const PartnerInfo = () => {
   const newPartnerStep = useSelector(
     (state: TRootState) => state.newPartner.step
   );
+  const dispatch = useDispatch();
+  const currentConditions = useSelector(
+    (state: TRootState) => state.newPartner.conditions
+  );
+
   const [fields, setFields] = useState({
-    conditions: oldConditions,
-    additionalInfo: oldAdditionalInfo,
+    condition: '',
+    additionalInfo: '',
   });
 
   const handleFieldChange = (field: any, value: string) => {
@@ -26,6 +24,12 @@ export const PartnerInfo = ({
       ...prevFields,
       [field]: value,
     }));
+  };
+
+  const addNewCondition = () => {
+    const resultConditions = [...currentConditions, fields.condition];
+    dispatch(setConditions(resultConditions));
+    handleFieldChange('condition', '');
   };
 
   return (
@@ -47,6 +51,7 @@ export const PartnerInfo = ({
       >
         <Text fontSize={20}>Условия предоставления скидки:</Text>
         <Input
+          value={fields.condition}
           formNoValidate
           marginTop={'1%'}
           width={'45%'}
@@ -60,7 +65,7 @@ export const PartnerInfo = ({
             borderColor: '#21A038',
           }}
           borderRadius={'10px'}
-          onChange={(e) => handleFieldChange('', e.target.value)}
+          onChange={(e) => handleFieldChange('condition', e.target.value)}
           required={true}
         />
         <Button
@@ -71,6 +76,7 @@ export const PartnerInfo = ({
           marginRight={'8px'}
           bg={'#21a038'}
           _hover={{ bg: '#21a038' }}
+          onClick={addNewCondition}
         >
           Добавить условие
         </Button>
@@ -90,7 +96,7 @@ export const PartnerInfo = ({
             borderColor: '#21A038',
           }}
           borderRadius={'10px'}
-          onChange={(e) => handleFieldChange('', e.target.value)}
+          onChange={(e) => handleFieldChange('additionalInfo', e.target.value)}
           required={true}
         />
       </div>
