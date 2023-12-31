@@ -22,7 +22,7 @@ import {
   AllPartnersTableContainer,
 } from '../../styles/admin';
 
-export const AdminAllPartners = () => {
+export const AllPartners = () => {
   const [searchValue, setSearchValue] = useState('');
   const [PID, setPID] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();

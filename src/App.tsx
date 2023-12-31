@@ -1,10 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { MainPage } from './pages/main';
-import { SberLine } from './styles/sber-line';
-import { Login } from './pages/login';
-import { AdminAllPartners } from './pages/admin-panel';
 import { PartnerStapper } from './components/partner-stapper';
+import { AllPartners } from './pages/all-partners';
+import { Login } from './pages/login';
+import { MainPage } from './pages/main';
 import { NewPartner } from './pages/new-partner';
+import { SberLine } from './styles/sber-line';
 
 export const App = () => {
   return (
@@ -16,7 +16,7 @@ export const App = () => {
           <Route path="admin">
             <Route index element={<Login />} />
             <Route path="login" element={<Login />} />
-            <Route path="allPartners" element={<AdminAllPartners />} />
+            <Route path="allPartners" element={<AllPartners />} />
             <Route
               path="partner/:id/:step"
               element={<PartnerStapper partnerStep={1} />}

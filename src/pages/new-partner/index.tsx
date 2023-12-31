@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -18,6 +18,7 @@ export const NewPartner = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const newPartnerData = useSelector((state: TRootState) => state.newPartner);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handlerCancel = () => {
     dispatch(clearNewPartnerState());
@@ -31,6 +32,10 @@ export const NewPartner = () => {
       navigate(`/admin/newPartner/${Number(step) + 1}`, { replace: true });
       handlerCreate();
     }
+  };
+
+  const chackCurrent = () => {
+    onOpen();
   };
 
   useEffect(() => {
@@ -87,6 +92,7 @@ export const NewPartner = () => {
           bg={'#21a038'}
           _hover={{ bg: '#21a038' }}
           isDisabled={false}
+          onClick={chackCurrent}
         >
           Посмотреть текущий вариант
         </Button>
@@ -104,7 +110,11 @@ export const NewPartner = () => {
           {Number(step) === steps.length - 1 ? 'Создать' : 'Далее'}
         </Button>
       </div>
-      <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
+      <ModelView
+        isOpen={isOpen}
+        onClose={onClose}
+        currentData={newPartnerData}
+      />
     </>
   );
 };
