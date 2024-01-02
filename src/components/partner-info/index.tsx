@@ -1,25 +1,26 @@
 import { Button, Input, Text, Textarea } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../../@types/redux';
+import {
+  setAdditionalInfo,
+  setConditions,
+} from '../../__data__/slices/partner-form';
+import { PartnerContainer as PartnerInfoContainer } from '../../styles/partner';
 import { PartnerStapper } from '../partner-stapper';
-import { setConditions } from '../../__data__/slices/partner-form';
 
 export const PartnerInfo = () => {
-  const newPartnerStep = useSelector(
-    (state: TRootState) => state.newPartner.step
+  const { step: newPartnerStep, conditions: currentConditions } = useSelector(
+    (state: TRootState) => state.newPartner
   );
   const dispatch = useDispatch();
-  const currentConditions = useSelector(
-    (state: TRootState) => state.newPartner.conditions
-  );
-
   const [fields, setFields] = useState({
     condition: '',
     additionalInfo: '',
   });
 
-  const handleFieldChange = (field: any, value: string) => {
+  const handleFieldChange = (field: string, value: string) => {
+    if (field === 'additionalInfo') dispatch(setAdditionalInfo(value));
     setFields((prevFields) => ({
       ...prevFields,
       [field]: value,
@@ -27,35 +28,24 @@ export const PartnerInfo = () => {
   };
 
   const addNewCondition = () => {
-    const resultConditions = [...currentConditions, fields.condition];
-    dispatch(setConditions(resultConditions));
-    handleFieldChange('condition', '');
+    if (fields.condition !== '') {
+      const resultConditions = [...currentConditions, fields.condition];
+      dispatch(setConditions(resultConditions));
+      handleFieldChange('condition', '');
+    }
   };
 
   return (
     <>
       <PartnerStapper partnerStep={Number(newPartnerStep)} />
-      <div
-        style={{
-          padding: '3vh',
-          marginTop: '14vh',
-          width: '40%',
-          border: '2px solid',
-          borderRadius: '10px',
-          borderColor: '#21a038',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
+      <PartnerInfoContainer>
         <Text fontSize={20}>Условия предоставления скидки:</Text>
         <Input
           value={fields.condition}
           formNoValidate
           marginTop={'1%'}
           width={'45%'}
-          placeholder="Название компании"
+          placeholder="Напишите условие"
           size={'lg'}
           bg={'#fff'}
           border={'2px solid '}
@@ -84,9 +74,11 @@ export const PartnerInfo = () => {
           Дополнительная информация:
         </Text>
         <Textarea
+          value={fields.additionalInfo}
           marginTop={'1%'}
           width={'45%'}
-          placeholder="Название компании"
+          maxH={'300px'}
+          placeholder="Дополнительная информация"
           size={'lg'}
           bg={'#fff'}
           border={'2px solid '}
@@ -99,7 +91,7 @@ export const PartnerInfo = () => {
           onChange={(e) => handleFieldChange('additionalInfo', e.target.value)}
           required={true}
         />
-      </div>
+      </PartnerInfoContainer>
     </>
   );
 };

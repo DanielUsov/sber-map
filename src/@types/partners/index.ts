@@ -1,9 +1,11 @@
+export type TCoordinates = {
+  latitude: number;
+  longitude: number;
+};
+
 export type TPlace = {
   address: string;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
+  coordinates: TCoordinates;
 };
 
 export type TPartnerWithPlacemarks = {

@@ -57,10 +57,10 @@ export const ModelView = ({
       <ModalContent>
         <ModalHeader>
           <Highlight
-            query={fakeP.title ? fakeP.title : 'Пока названия нет'}
+            query={fakeP.title ? fakeP.title : 'названия нет'}
             styles={{ px: '2', py: '1', rounded: 'full', bg: '#E5FFE4' }}
           >
-            {fakeP.title ? fakeP.title : 'Пока названия нет'}
+            {fakeP.title ? fakeP.title : 'названия нет'}
           </Highlight>
         </ModalHeader>
         <ModalCloseButton />
@@ -71,7 +71,7 @@ export const ModelView = ({
               <Text fontSize="16">{`${index + 1}. ${condition} `}</Text>
             ))
           ) : (
-            <Text fontSize="16">{'Пока условий нет'}</Text>
+            <Text fontSize="16">{'условий нет'}</Text>
           )}
           <Text fontSize="18" marginTop="12px">
             Дополнительная информация:
