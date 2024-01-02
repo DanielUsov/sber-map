@@ -127,7 +127,7 @@ export const AllPartners = () => {
         <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
       </AdminAllPartnersWrapper>
       <Button
-        width={'16vh'}
+        width={'18vh'}
         height={'3vh'}
         color="white"
         float={'right'}

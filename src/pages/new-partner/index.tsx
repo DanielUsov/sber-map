@@ -7,10 +7,11 @@ import {
   clearNewPartnerState,
   setStep,
 } from '../../__data__/slices/partner-form';
+import { ModelView } from '../../components/modal-view/inex';
 import { PartnerInfo } from '../../components/partner-info';
+import { PartnerPlaces } from '../../components/partner-places';
 import { PartnerTitle } from '../../components/partner-title';
 import { steps } from '../../config';
-import { ModelView } from '../../components/modal-view/inex';
 
 export const NewPartner = () => {
   const { step } = useParams();
@@ -58,7 +59,7 @@ export const NewPartner = () => {
           <>
             {Number(step) === 0 ? <PartnerTitle /> : null}
             {Number(step) === 1 ? <PartnerInfo /> : null}
-            {Number(step) === 2 ? <PartnerTitle /> : null}
+            {Number(step) === 2 ? <PartnerPlaces /> : null}
           </>
         )}
       </div>

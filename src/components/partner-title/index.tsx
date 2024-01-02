@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../../@types/redux';
 import { setTitle } from '../../__data__/slices/partner-form';
 import { PartnerStapper } from '../partner-stapper';
-
+import { PartnerContainer as PartnerTitleContainer } from '../../styles/partner';
 type TPartnerTitleProps = {
   oldTitle?: string;
 };
@@ -24,20 +24,7 @@ export const PartnerTitle = ({ oldTitle = '' }: TPartnerTitleProps) => {
   return (
     <>
       <PartnerStapper partnerStep={Number(newPartnerStep)} />
-      <div
-        style={{
-          padding: '3vh',
-          marginTop: '14vh',
-          width: '40%',
-          border: '2px solid',
-          borderRadius: '10px',
-          borderColor: '#21a038',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
+      <PartnerTitleContainer>
         <Text fontSize={20}>Как называется компания партнер?</Text>
         <Input
           formNoValidate
@@ -58,7 +45,7 @@ export const PartnerTitle = ({ oldTitle = '' }: TPartnerTitleProps) => {
           onChange={(e) => handleChenge(e.target.value)}
           required={true}
         />
-      </div>
+      </PartnerTitleContainer>
     </>
   );
 };

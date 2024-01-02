@@ -41,7 +41,7 @@ export const PartnerStapper = ({ partnerStep }: PartnerStapperProps) => {
       index={activeStep}
       colorScheme="green"
       width={'70%'}
-      marginTop={'10%'}
+      marginTop={'8%'}
     >
       {steps.map((step, index) => (
         <Step key={index}>

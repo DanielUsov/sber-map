@@ -11,9 +11,9 @@ export const YMap = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handlePlacemarkClick = (markId: string) => {
+  const handlePlacemarkClick = (placeId: string) => {
     onOpen();
-    setPID(markId);
+    setPID(placeId);
   };
 
   const handleMapLoad = () => {
