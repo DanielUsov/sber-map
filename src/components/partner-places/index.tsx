@@ -1,19 +1,19 @@
+import { Button, Input, Text } from '@chakra-ui/react';
 import { Clusterer, Map, Placemark, YMaps } from '@pbe/react-yandex-maps';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TPlace } from '../../@types/partners';
 import { TRootState } from '../../@types/redux';
-import { setAdditionalInfo } from '../../__data__/slices/partner-form';
+import { setPlaces } from '../../__data__/slices/partner-form';
 import { PartnerContainer as PartnerPlacesContainer } from '../../styles/partner';
+import { PartnerСoordinatesContainer } from '../../styles/partner-places';
 import { Loader } from '../loader';
 import { PartnerStapper } from '../partner-stapper';
-import { Button, Input, Text } from '@chakra-ui/react';
-import { PartnerСoordinatesContainer } from '../../styles/partner-places';
-import { TCoordinates, TPlace } from '../../@types/partners';
 
 export const PartnerPlaces = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const dispatch = useDispatch();
-  const { step: newPartnerStep, places: newPartnerCurrentPlaces } = useSelector(
+  const { step: newPartnerStep, places: newPartnerPlaces } = useSelector(
     (state: TRootState) => state.newPartner
   );
   const fieldsInitState: TPlace = {
@@ -26,9 +26,12 @@ export const PartnerPlaces = () => {
   const [fields, setFields] = useState<TPlace>(fieldsInitState);
 
   const handleCoordinatesChange = (field: string, value: string) => {
-    setFields((prevFields) => ({
-      ...prevFields.coordinates,
-      [field]: value,
+    setFields((prevState) => ({
+      ...prevState,
+      coordinates: {
+        ...prevState.coordinates,
+        [field]: value,
+      },
     }));
   };
 
@@ -43,14 +46,18 @@ export const PartnerPlaces = () => {
     setIsMapLoaded(true);
   };
 
-  console.log(fields);
+  const handleClick = () => {
+    dispatch(setPlaces(newPartnerPlaces.concat(fields)));
+    setFields(fieldsInitState);
+  };
 
   return (
     <>
       <PartnerStapper partnerStep={Number(newPartnerStep)} />
       <PartnerPlacesContainer
         style={{
-          width: '50%',
+          width: '50vw',
+          height: '50vh',
           flexDirection: 'row',
           padding: '0',
           borderRadius: '2px',
@@ -107,9 +114,9 @@ export const PartnerPlaces = () => {
                   } здания`}
                   size={'lg'}
                   value={
-                    fields.coordinates[field] !== 0
-                      ? fields.coordinates[field]
-                      : ''
+                    fields?.coordinates[field] === 0
+                      ? ''
+                      : fields?.coordinates[field]
                   }
                   bg={'#fff'}
                   border={'2px solid '}
@@ -119,22 +126,23 @@ export const PartnerPlaces = () => {
                     borderColor: '#21A038',
                   }}
                   borderRadius={'10px'}
-                  onChange={(e) => handleFieldChange(field, e.target.value)}
+                  onChange={(e) =>
+                    handleCoordinatesChange(field, e.target.value)
+                  }
                   required={true}
                 />
               </PartnerСoordinatesContainer>
             ))}
           </div>
           <Button
-            // marginTop={'6vh'}
             width={'100%'}
-            height={'3vh'}
+            height={'3.5vh'}
             color="white"
             float={'right'}
             marginRight={'8px'}
             bg={'#21a038'}
             _hover={{ bg: '#21a038' }}
-            // onClick={}
+            onClick={handleClick}
           >
             Добавить адрес
           </Button>
@@ -142,9 +150,9 @@ export const PartnerPlaces = () => {
 
         <div
           style={{
-            width: '50%',
+            width: '30vw',
             backgroundColor: '#fff',
-            height: '600px',
+            height: '100%',
             borderRadius: '20px',
           }}
         >
@@ -161,7 +169,7 @@ export const PartnerPlaces = () => {
                   groupByCoordinates: false,
                 }}
               >
-                {newPartnerCurrentPlaces.flatMap((place) => (
+                {newPartnerPlaces.flatMap((place) => (
                   <Placemark
                     key={
                       place.coordinates.latitude + place.coordinates.longitude

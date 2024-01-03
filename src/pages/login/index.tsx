@@ -48,11 +48,10 @@ export const Login = () => {
         >
           Авторизация
         </FormLabel>
-        <Stack spacing={4} width={'24rem'} sx={{ marginTop: '5vh' }}>
+        <Stack spacing={4} width={'80%'} sx={{ marginTop: '5vh' }}>
           <Input
             id="login"
             placeholder="login"
-            size={'lg'}
             bg={'#fff'}
             borderColor={'#7ECC81'}
             focusBorderColor={'#6cad6e'}
@@ -64,7 +63,6 @@ export const Login = () => {
             id="password"
             type="password"
             placeholder="password"
-            size={'lg'}
             bg={'#fff'}
             borderColor={'#7ECC81'}
             focusBorderColor={'#6cad6e'}
@@ -81,7 +79,7 @@ export const Login = () => {
             borderColor: '#21A038',
           }}
           sx={{
-            marginTop: '4vh',
+            marginTop: '4%',
             backgroundColor: '#21A038',
             color: '#FFFFFF',
             borderColor: '#21A038',

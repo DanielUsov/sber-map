@@ -1,6 +1,7 @@
 export type TCoordinates = {
   latitude: number;
   longitude: number;
+  [key: string]: any;
 };
 
 export type TPlace = {
