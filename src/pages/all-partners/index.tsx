@@ -56,8 +56,8 @@ export const AllPartners = () => {
   return (
     <>
       <Button
-        width={'6vh'}
-        height={'3vh'}
+        width={'6rem'}
+        height={'2rem'}
         color="white"
         marginTop={'20px'}
         float={'right'}
@@ -93,7 +93,7 @@ export const AllPartners = () => {
             overflowY="auto"
             marginTop={'2vh'}
           >
-            <AllPartnersTable size={'lg'} background={'#F0F6FE'}>
+            <AllPartnersTable background={'#F0F6FE'}>
               <Thead>
                 <Tr>
                   <Th>Название компании партнера:</Th>
@@ -127,11 +127,12 @@ export const AllPartners = () => {
         <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
       </AdminAllPartnersWrapper>
       <Button
-        width={'18vh'}
-        height={'3vh'}
+        width={'14rem'}
+        height={'2rem'}
         color="white"
         float={'right'}
         marginRight={'8px'}
+        marginTop={'18vh'}
         bg={'#21a038'}
         _hover={{ bg: '#21a038' }}
         onClick={handleCreate}

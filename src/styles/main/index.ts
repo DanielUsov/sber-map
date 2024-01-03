@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 
 export const MainListWrapper = styled.div`
   width: 34.375%;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -20,7 +20,7 @@ export const YMapWrapper = styled.div`
 
 export const StyledList = styled(List)`
   width: 30em;
-  max-height: 72vh;
+  max-height: 70%;
   overflow-y: auto;
   &::-webkit-scrollbar {
     width: 4px;

@@ -74,7 +74,7 @@ export const NewPartner = () => {
       >
         <Button
           marginTop={'2%'}
-          width={'14vh'}
+          width={'6rem'}
           height={'3vh'}
           color="white"
           marginLeft={'8px'}
@@ -87,7 +87,7 @@ export const NewPartner = () => {
         </Button>
         <Button
           marginTop={'2%'}
-          width={'24vh'}
+          width={'16rem'}
           height={'3vh'}
           color="white"
           bg={'#21a038'}
@@ -99,7 +99,7 @@ export const NewPartner = () => {
         </Button>
         <Button
           marginTop={'2%'}
-          width={'14vh'}
+          width={'6rem'}
           height={'3vh'}
           color="white"
           marginRight={'8px'}

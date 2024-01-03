@@ -12,15 +12,7 @@ const initialState: TNewPartner = {
   title: '',
   conditions: [],
   additionalInfo: '',
-  places: [
-    {
-      address: '',
-      coordinates: {
-        latitude: 0,
-        longitude: 0,
-      },
-    },
-  ],
+  places: [],
   step: -1,
 };
 

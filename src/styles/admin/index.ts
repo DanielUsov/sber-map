@@ -5,13 +5,13 @@ export const AdminAllPartnersWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90vh;
-  width: 100%;
+  height: 70vh;
+  width: 100vw;
 `;
 
 export const AllPartnersTableContainer = styled(TableContainer)`
   border-radius: 10px 0 0 10px;
-  height: 100%;
+  height: 100vh;
   &::-webkit-scrollbar {
     width: 12px;
     border-radius: 0 10px 10px 0;
@@ -30,6 +30,7 @@ export const AllPartnersTableContainer = styled(TableContainer)`
 `;
 
 export const AllPartnersTable = styled(Table)`
-  max-height: 10px;
+  /* height: 30vh */
+  max-height: 100px;
   overflow-y: auto;
 `;
