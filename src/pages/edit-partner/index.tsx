@@ -13,11 +13,11 @@ import { PartnerPlaces } from '../../components/partner-places';
 import { PartnerTitle } from '../../components/partner-title';
 import { steps } from '../../config';
 
-export const NewPartner = () => {
-  const { step } = useParams();
+export const EditPartner = () => {
+  const { id: partnerId, step } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const newPartnerData = useSelector((state: TRootState) => state.newPartner);
+  const partnerData = useSelector((state: TRootState) => state.editPartner);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handlerCancel = () => {
@@ -25,11 +25,11 @@ export const NewPartner = () => {
     navigate('/admin/allPartners', { replace: true });
   };
 
-  const handlerCreate = () => {};
+  const handlerEdit = () => {};
 
   const handlerNext = () => {
     if (Number(step) === steps.length - 1) {
-      handlerCreate();
+      handlerEdit();
       return navigate(`/admin/allPartners`, { replace: true });
     }
     navigate(`/admin/newPartner/${Number(step) + 1}`, { replace: true });
@@ -110,11 +110,7 @@ export const NewPartner = () => {
           {Number(step) === steps.length - 1 ? 'Создать' : 'Далее'}
         </Button>
       </div>
-      <ModelView
-        isOpen={isOpen}
-        onClose={onClose}
-        currentData={newPartnerData}
-      />
+      <ModelView isOpen={isOpen} onClose={onClose} currentData={partnerData} />
     </>
   );
 };

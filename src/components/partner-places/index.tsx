@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TPlace } from '../../@types/partners';
 import { TRootState } from '../../@types/redux';
-import { setPlaces } from '../../__data__/slices/partner-form';
+import { setPlaces } from '../../__data__/slices/new-partner';
 import { PartnerContainer as PartnerPlacesContainer } from '../../styles/partner';
 import { PartnerСoordinatesContainer } from '../../styles/partner-places';
 import { Loader } from '../loader';
