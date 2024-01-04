@@ -2,7 +2,7 @@ import { Input, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../../@types/redux';
-import { setTitle } from '../../__data__/slices/partner-form';
+import { setTitle } from '../../__data__/slices/new-partner';
 import { PartnerStapper } from '../partner-stapper';
 import { PartnerContainer as PartnerTitleContainer } from '../../styles/partner';
 type TPartnerTitleProps = {

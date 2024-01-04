@@ -5,7 +5,7 @@ import { TRootState } from '../../@types/redux';
 import {
   setAdditionalInfo,
   setConditions,
-} from '../../__data__/slices/partner-form';
+} from '../../__data__/slices/new-partner';
 import { PartnerContainer as PartnerInfoContainer } from '../../styles/partner';
 import { PartnerStapper } from '../partner-stapper';
 

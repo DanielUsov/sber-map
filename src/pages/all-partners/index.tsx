@@ -35,7 +35,7 @@ export const AllPartners = () => {
 
   const handleEdit = (e: any, data: TPartnerWithPlacemarks) => {
     e.stopPropagation();
-    navigate(`/admin/partneredit/${data.partnerId}`);
+    navigate(`/admin/partner/${data.partnerId}/0`);
   };
 
   const handleSearch = (event: any) => {
