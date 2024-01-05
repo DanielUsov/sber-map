@@ -9,6 +9,9 @@ import {
   Highlight,
 } from '@chakra-ui/react';
 import { TPartner, TPlace } from '../../@types/partners';
+import { useGetPartnerByIdQuery } from '../../__data__/services/api/partner';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export type ModelViewProps = {
   isOpen: any;
@@ -20,36 +23,22 @@ export type ModelViewProps = {
 export const ModelView = ({
   isOpen,
   onClose,
-  PID,
+  PID = '',
   currentData,
 }: ModelViewProps) => {
-  const fakeP: Pick<
-    TPartner,
-    Exclude<keyof TPartner, 'partnerId'>
-  > = currentData
-    ? currentData
-    : {
-        title: 'OAO <OAO>',
-        conditions: ['сделать что-то', 'сделать еще что-то'],
-        additionalInfo:
-          'Помимо этого, для сотрудников каньона действует специальная цена 3000 рублей на тур в каньон «каньон». Если хотите попробовать, напишите @каньон',
-        places: [
-          {
-            address: 'г.Сочи ул.Пушкина д.Колотушкина',
-            coordinates: {
-              latitude: 43.6017215,
-              longitude: 39.7251289,
-            },
-          },
-          {
-            address: 'г.Сочи ул.Пушкина д.Колотушкина 2 ',
-            coordinates: {
-              latitude: 43.6017211,
-              longitude: 39.7251289,
-            },
-          },
-        ],
-      };
+  const navigate = useNavigate();
+  const { data: partnerData, isError } = useGetPartnerByIdQuery(PID || '');
+  const partner =
+    PID !== '' && typeof currentData === 'undefined'
+      ? partnerData
+      : currentData;
+
+  useEffect(() => {
+    if (isError && typeof currentData === 'undefined') {
+      navigate('/error');
+      console.log('error');
+    }
+  }, [isError]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={'4xl'}>
@@ -57,17 +46,17 @@ export const ModelView = ({
       <ModalContent>
         <ModalHeader>
           <Highlight
-            query={fakeP.title ? fakeP.title : 'названия нет'}
+            query={partner?.title ? partner.title : 'названия нет'}
             styles={{ px: '2', py: '1', rounded: 'full', bg: '#E5FFE4' }}
           >
-            {fakeP.title ? fakeP.title : 'названия нет'}
+            {partner?.title ? partner.title : 'названия нет'}
           </Highlight>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Text fontSize="18">Условия предоставления скидки:</Text>
-          {fakeP.conditions.length > 0 ? (
-            fakeP.conditions.map((condition, index) => (
+          {partner?.conditions && partner?.conditions.length > 0 ? (
+            partner?.conditions.map((condition, index) => (
               <Text fontSize="16">{`${index + 1}. ${condition} `}</Text>
             ))
           ) : (
@@ -76,11 +65,11 @@ export const ModelView = ({
           <Text fontSize="18" marginTop="12px">
             Дополнительная информация:
           </Text>
-          <Text fontSize="16">{fakeP?.additionalInfo}</Text>
+          <Text fontSize="16">{partner?.additionalInfo}</Text>
           <Text fontSize="18" marginTop="12px">
             Адреса:
           </Text>
-          {fakeP.places.map((place: TPlace) => (
+          {partner?.places.map((place: TPlace) => (
             <Text
               key={place.coordinates.latitude + place.coordinates.longitude}
               fontSize="16"

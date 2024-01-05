@@ -18,6 +18,9 @@ const editPartner = createSlice({
   name: 'editPartner',
   initialState,
   reducers: {
+    setInit: (state, action: PayloadAction<TEditPartner>) => {
+      state = action.payload;
+    },
     setPartnerId: (state, action: PayloadAction<string>) => {
       state.partnerId = action.payload;
     },
@@ -43,6 +46,7 @@ const editPartner = createSlice({
 });
 
 export const {
+  setInit,
   setPartnerId,
   setTitle,
   setConditions,

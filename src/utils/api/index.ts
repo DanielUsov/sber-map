@@ -1,7 +1,7 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: 'localhost',
+  baseUrl: 'http://localhost:3000',
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('attendanceAccessToken');
 

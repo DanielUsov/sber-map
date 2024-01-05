@@ -7,10 +7,10 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { TPartnerWithPlacemarks, TPlace } from '../../@types/partners';
-import { partnersForMain as cards } from '../../__data__/smoke';
+import { useGetPartnersPlacemarksQuery } from '../../__data__/services/api/partner';
 import {
   MainListWrapper,
   SberFullLogo,
@@ -23,6 +23,8 @@ export const MainList = () => {
   const [searchValue, setSearchValue] = useState('');
   const [PID, setPID] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+  const { data: partners, isError } = useGetPartnersPlacemarksQuery();
 
   const handleClick = (data: TPartnerWithPlacemarks) => {
     onOpen();
@@ -33,10 +35,16 @@ export const MainList = () => {
     setSearchValue(event.target.value);
   };
 
-  const filteredCards: TPartnerWithPlacemarks[] =
-    searchValue !== ''
-      ? cards.filter((card) => card.title.includes(searchValue))
-      : cards;
+  const filteredPartner: TPartnerWithPlacemarks[] =
+    searchValue !== '' && typeof partners !== 'undefined'
+      ? partners.filter((partner) => partner.title.includes(searchValue))
+      : partners || [];
+
+  useEffect(() => {
+    if (isError) {
+      // navigate('/error');
+    }
+  }, [isError]);
 
   return (
     <MainListWrapper>
@@ -57,7 +65,7 @@ export const MainList = () => {
           formNoValidate
         />
         <StyledList spacing={3}>
-          {filteredCards.map((card: TPartnerWithPlacemarks) => (
+          {filteredPartner.map((card: TPartnerWithPlacemarks) => (
             <Card
               variant={'elevated'}
               size={'sm'}

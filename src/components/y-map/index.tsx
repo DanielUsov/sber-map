@@ -1,7 +1,8 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { Clusterer, Map, Placemark, YMaps } from '@pbe/react-yandex-maps';
-import { useState } from 'react';
-import { partnersForMain as placemarks } from '../../__data__/smoke';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGetPartnersPlacemarksQuery } from '../../__data__/services/api/partner';
 import { YMapWrapper } from '../../styles/main';
 import { Loader } from '../loader';
 import { ModelView } from '../modal-view/inex';
@@ -10,6 +11,8 @@ export const YMap = () => {
   const [PID, setPID] = useState('');
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+  const { data: partnersPlacemarks, isError } = useGetPartnersPlacemarksQuery();
 
   const handlePlacemarkClick = (placeId: string) => {
     onOpen();
@@ -19,6 +22,12 @@ export const YMap = () => {
   const handleMapLoad = () => {
     setIsMapLoaded(true);
   };
+
+  useEffect(() => {
+    if (isError) {
+      // navigate('/error');
+    }
+  }, [isError]);
 
   return (
     <>
@@ -36,7 +45,7 @@ export const YMap = () => {
                 groupByCoordinates: false,
               }}
             >
-              {placemarks.flatMap((placemark) =>
+              {partnersPlacemarks?.flatMap((placemark) =>
                 placemark.places.map((place) => (
                   <Placemark
                     key={placemark.partnerId + placemark.title}
