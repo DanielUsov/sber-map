@@ -135,7 +135,7 @@ export const EditPartner = () => {
           {Number(step) === steps.length - 1 ? 'Сохранить' : 'Далее'}
         </Button>
       </div>
-      <ModelView isOpen={isOpen} onClose={onClose} currentData={partnerData} />
+      <ModelView isOpen={isOpen} onClose={onClose} currentData={partnerData} isForm/>
     </>
   );
 };

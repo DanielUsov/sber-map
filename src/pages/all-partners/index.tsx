@@ -124,7 +124,7 @@ export const AllPartners = () => {
             </AllPartnersTable>
           </AllPartnersTableContainer>
         </div>
-        <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
+        <ModelView isOpen={isOpen} onClose={onClose} PID={PID} isForm />
       </AdminAllPartnersWrapper>
       <Button
         width={'14rem'}

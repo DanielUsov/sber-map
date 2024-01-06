@@ -1,23 +1,26 @@
 import {
+  Highlight,
+  IconButton,
   Modal,
-  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
-  ModalBody,
+  ModalOverlay,
   Text,
-  Highlight,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { MdDelete } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 import { TPartner, TPlace } from '../../@types/partners';
 import { useGetPartnerByIdQuery } from '../../__data__/services/api/partner';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export type ModelViewProps = {
   isOpen: any;
   onClose: any;
   PID?: string;
   currentData?: Pick<TPartner, Exclude<keyof TPartner, 'partnerId'>>;
+  isForm?: boolean;
 };
 
 export const ModelView = ({
@@ -25,6 +28,7 @@ export const ModelView = ({
   onClose,
   PID = '',
   currentData,
+  isForm = false,
 }: ModelViewProps) => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -34,6 +38,8 @@ export const ModelView = ({
       ? partnerData
       : currentData;
 
+  const handlerDeletePlace = () => {};
+
   const disabledView = () => (isOpen = false);
 
   useEffect(() => {
@@ -42,7 +48,6 @@ export const ModelView = ({
       onClose();
       setError(true);
       // navigate('/error');
-      console.log('error');
     }
   }, [isError]);
 
@@ -79,14 +84,31 @@ export const ModelView = ({
                   Адреса:
                 </Text>
                 {partner?.places.map((place: TPlace) => (
-                  <Text
-                    key={
-                      place.coordinates.latitude + place.coordinates.longitude
-                    }
-                    fontSize="16"
-                  >
-                    {place.address}
-                  </Text>
+                  <div style={{ display: 'flex' }}>
+                    <Text
+                      key={
+                        place.coordinates.latitude + place.coordinates.longitude
+                      }
+                      fontSize="16"
+                    >
+                      {place.address}
+                    </Text>
+                    {isForm ? (
+                      <IconButton
+                        marginLeft={'10px'}
+                        width={'10px'}
+                        height={'24px'}
+                        _hover={{ bg: '#21A038' }}
+                        bg={'#F0F6FE'}
+                        aria-label={'Редактировать'}
+                        onClick={handlerDeletePlace}
+                      >
+                        <MdDelete />
+                      </IconButton>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 ))}
               </ModalBody>
             </ModalContent>

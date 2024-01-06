@@ -114,6 +114,7 @@ export const NewPartner = () => {
         isOpen={isOpen}
         onClose={onClose}
         currentData={newPartnerData}
+        isForm
       />
     </>
   );

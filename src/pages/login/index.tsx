@@ -1,11 +1,13 @@
 import { Button, FormLabel, Input, Stack } from '@chakra-ui/react';
 import { useState } from 'react';
-import { LoginForm, LoginWrapper } from '../../styles/login';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../../__data__/services/api/auth';
+import { LoginForm, LoginWrapper } from '../../styles/login';
 
 export const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [singIn] = useLoginMutation();
   const [fields, setFields] = useState({
     login: '',
     password: '',
@@ -21,8 +23,9 @@ export const Login = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (fields.login !== '' && fields.password !== '') {
-      console.log('aaadadadada');
-      navigate(location.pathname + '/allPartners');
+      singIn({ email: fields.login, password: fields.password })
+        .unwrap()
+        .then(() => navigate(location.pathname + '/allPartners'));
     }
   };
 
