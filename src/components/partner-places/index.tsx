@@ -181,9 +181,6 @@ export const PartnerPlaces = () => {
                         place.coordinates.longitude,
                       ],
                     }}
-                    // properties={{
-                    //   hintContent: place.title,
-                    // }}
                     modules={[
                       'geoObject.addon.balloon',
                       'geoObject.addon.hint',

@@ -12,11 +12,15 @@ import { PartnerInfo } from '../../components/partner-info';
 import { PartnerPlaces } from '../../components/partner-places';
 import { PartnerTitle } from '../../components/partner-title';
 import { steps } from '../../config';
+import { useGetPartnerByIdQuery } from '../../__data__/services/api/partner';
+import { setInit } from '../../__data__/slices/edit-partner';
 
 export const EditPartner = () => {
   const { id: partnerId, step } = useParams();
+  const { data, isError } = useGetPartnerByIdQuery(partnerId ?? '');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const partnerData = useSelector((state: TRootState) => state.editPartner);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -40,8 +44,29 @@ export const EditPartner = () => {
   };
 
   useEffect(() => {
+    if (data && partnerId) {
+      dispatch(
+        setInit({
+          partnerId: partnerId,
+          title: data.title,
+          conditions: data.conditions,
+          additionalInfo: data.additionalInfo,
+          places: data.places,
+          step: -1,
+        })
+      );
+    }
+  });
+
+  useEffect(() => {
     dispatch(setStep(Number(step) + 1));
   }, [Number(step)]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate('/error');
+    }
+  }, [isError]);
 
   return (
     <>
@@ -56,7 +81,7 @@ export const EditPartner = () => {
       >
         {Number(step) >= 0 && Number(step) < 4 && (
           <>
-            {Number(step) === 0 ? <PartnerTitle /> : null}
+            {Number(step) === 0 ? <PartnerTitle isEditing /> : null}
             {Number(step) === 1 ? <PartnerInfo /> : null}
             {Number(step) === 2 ? <PartnerPlaces /> : null}
           </>
@@ -107,10 +132,10 @@ export const EditPartner = () => {
           isDisabled={false}
           onClick={handlerNext}
         >
-          {Number(step) === steps.length - 1 ? 'Создать' : 'Далее'}
+          {Number(step) === steps.length - 1 ? 'Сохранить' : 'Далее'}
         </Button>
       </div>
-      <ModelView isOpen={isOpen} onClose={onClose} currentData={partnerData} />
+      <ModelView isOpen={isOpen} onClose={onClose} currentData={partnerData} isForm/>
     </>
   );
 };

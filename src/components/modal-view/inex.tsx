@@ -1,95 +1,120 @@
 import {
+  Highlight,
+  IconButton,
   Modal,
-  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
-  ModalBody,
+  ModalOverlay,
   Text,
-  Highlight,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { MdDelete } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 import { TPartner, TPlace } from '../../@types/partners';
+import { useGetPartnerByIdQuery } from '../../__data__/services/api/partner';
 
 export type ModelViewProps = {
   isOpen: any;
   onClose: any;
   PID?: string;
   currentData?: Pick<TPartner, Exclude<keyof TPartner, 'partnerId'>>;
+  isForm?: boolean;
 };
 
 export const ModelView = ({
   isOpen,
   onClose,
-  PID,
+  PID = '',
   currentData,
+  isForm = false,
 }: ModelViewProps) => {
-  const fakeP: Pick<
-    TPartner,
-    Exclude<keyof TPartner, 'partnerId'>
-  > = currentData
-    ? currentData
-    : {
-        title: 'OAO <OAO>',
-        conditions: ['сделать что-то', 'сделать еще что-то'],
-        additionalInfo:
-          'Помимо этого, для сотрудников каньона действует специальная цена 3000 рублей на тур в каньон «каньон». Если хотите попробовать, напишите @каньон',
-        places: [
-          {
-            address: 'г.Сочи ул.Пушкина д.Колотушкина',
-            coordinates: {
-              latitude: 43.6017215,
-              longitude: 39.7251289,
-            },
-          },
-          {
-            address: 'г.Сочи ул.Пушкина д.Колотушкина 2 ',
-            coordinates: {
-              latitude: 43.6017211,
-              longitude: 39.7251289,
-            },
-          },
-        ],
-      };
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
+  const { data: partnerData, isError } = useGetPartnerByIdQuery(PID || '');
+  const partner =
+    PID !== '' && typeof currentData === 'undefined'
+      ? partnerData
+      : currentData;
+
+  const handlerDeletePlace = () => {};
+
+  const disabledView = () => (isOpen = false);
+
+  useEffect(() => {
+    if (isError && typeof currentData === 'undefined') {
+      disabledView();
+      onClose();
+      setError(true);
+      // navigate('/error');
+    }
+  }, [isError]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={'4xl'}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          <Highlight
-            query={fakeP.title ? fakeP.title : 'названия нет'}
-            styles={{ px: '2', py: '1', rounded: 'full', bg: '#E5FFE4' }}
-          >
-            {fakeP.title ? fakeP.title : 'названия нет'}
-          </Highlight>
-        </ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Text fontSize="18">Условия предоставления скидки:</Text>
-          {fakeP.conditions.length > 0 ? (
-            fakeP.conditions.map((condition, index) => (
-              <Text fontSize="16">{`${index + 1}. ${condition} `}</Text>
-            ))
-          ) : (
-            <Text fontSize="16">{'условий нет'}</Text>
-          )}
-          <Text fontSize="18" marginTop="12px">
-            Дополнительная информация:
-          </Text>
-          <Text fontSize="16">{fakeP?.additionalInfo}</Text>
-          <Text fontSize="18" marginTop="12px">
-            Адреса:
-          </Text>
-          {fakeP.places.map((place: TPlace) => (
-            <Text
-              key={place.coordinates.latitude + place.coordinates.longitude}
-              fontSize="16"
-            >
-              {place.address}
-            </Text>
-          ))}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+    <>
+      {!error ? (
+        <>
+          <Modal isOpen={isOpen} onClose={onClose} size={'4xl'}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>
+                <Highlight
+                  query={partner?.title ? partner.title : 'названия нет'}
+                  styles={{ px: '2', py: '1', rounded: 'full', bg: '#E5FFE4' }}
+                >
+                  {partner?.title ? partner.title : 'названия нет'}
+                </Highlight>
+              </ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Text fontSize="18">Условия предоставления скидки:</Text>
+                {partner?.conditions && partner?.conditions.length > 0 ? (
+                  partner?.conditions.map((condition, index) => (
+                    <Text fontSize="16">{`${index + 1}. ${condition} `}</Text>
+                  ))
+                ) : (
+                  <Text fontSize="16">{'условий нет'}</Text>
+                )}
+                <Text fontSize="18" marginTop="12px">
+                  Дополнительная информация:
+                </Text>
+                <Text fontSize="16">{partner?.additionalInfo}</Text>
+                <Text fontSize="18" marginTop="12px">
+                  Адреса:
+                </Text>
+                {partner?.places.map((place: TPlace) => (
+                  <div style={{ display: 'flex' }}>
+                    <Text
+                      key={
+                        place.coordinates.latitude + place.coordinates.longitude
+                      }
+                      fontSize="16"
+                    >
+                      {place.address}
+                    </Text>
+                    {isForm ? (
+                      <IconButton
+                        marginLeft={'10px'}
+                        width={'10px'}
+                        height={'24px'}
+                        _hover={{ bg: '#21A038' }}
+                        bg={'#F0F6FE'}
+                        aria-label={'Редактировать'}
+                        onClick={handlerDeletePlace}
+                      >
+                        <MdDelete />
+                      </IconButton>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                ))}
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        </>
+      ) : null}
+    </>
   );
 };

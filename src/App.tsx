@@ -5,6 +5,7 @@ import { Login } from './pages/login';
 import { MainPage } from './pages/main';
 import { NewPartner } from './pages/new-partner';
 import { SberLine } from './styles/sber-line';
+import { Error } from './pages/error';
 
 export const App = () => {
   return (
@@ -20,6 +21,7 @@ export const App = () => {
             <Route path="partner/:id/:step" element={<EditPartner />} />
             <Route path="newPartner/:step" element={<NewPartner />} />
           </Route>
+          <Route path="error" element={<Error />} />
 
           <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Route>

@@ -3,17 +3,23 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../../@types/redux';
 import { setTitle } from '../../__data__/slices/new-partner';
-import { PartnerStapper } from '../partner-stapper';
 import { PartnerContainer as PartnerTitleContainer } from '../../styles/partner';
+import { PartnerStapper } from '../partner-stapper';
+
 type TPartnerTitleProps = {
-  oldTitle?: string;
+  isEditing?: boolean;
 };
 
-export const PartnerTitle = ({ oldTitle = '' }: TPartnerTitleProps) => {
-  const newPartnerStep = useSelector(
-    (state: TRootState) => state.newPartner.step
+export const PartnerTitle = ({ isEditing = false }: TPartnerTitleProps) => {
+  const { step: newPartnerStep, title: newPartnerTitle } = useSelector(
+    (state: TRootState) => state.newPartner
   );
-  const [currentTitle, setCurrentTitle] = useState<string>(oldTitle);
+  const { title: oldTitle, step: editStep } = useSelector(
+    (state: TRootState) => state.editPartner
+  );
+  const [currentTitle, setCurrentTitle] = useState<string>(
+    isEditing ? oldTitle : newPartnerTitle
+  );
   const dispatch = useDispatch();
 
   const handleChenge = (inputValue: string) => {
@@ -23,7 +29,9 @@ export const PartnerTitle = ({ oldTitle = '' }: TPartnerTitleProps) => {
 
   return (
     <>
-      <PartnerStapper partnerStep={Number(newPartnerStep)} />
+      <PartnerStapper
+        partnerStep={Number(isEditing ? editStep : newPartnerStep)}
+      />
       <PartnerTitleContainer>
         <Text fontSize={20}>Как называется компания партнер?</Text>
         <Input

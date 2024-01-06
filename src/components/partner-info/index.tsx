@@ -4,19 +4,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../../@types/redux';
 import {
   setAdditionalInfo,
-  setConditions,
+  setConditions as setConditionsNewPartner,
 } from '../../__data__/slices/new-partner';
 import { PartnerContainer as PartnerInfoContainer } from '../../styles/partner';
 import { PartnerStapper } from '../partner-stapper';
+import { setConditions as setConditionsEditPartner } from '../../__data__/slices/edit-partner';
 
-export const PartnerInfo = () => {
-  const { step: newPartnerStep, conditions: currentConditions } = useSelector(
-    (state: TRootState) => state.newPartner
-  );
+type TPartnerInfoProps = {
+  isEditing?: boolean;
+};
+
+export const PartnerInfo = ({ isEditing = false }: TPartnerInfoProps) => {
+  const {
+    step: newPartnerStep,
+    conditions: currentConditions,
+    additionalInfo: currentAdditionalInfo,
+  } = useSelector((state: TRootState) => state.newPartner);
+  const {
+    step: editStep,
+    conditions: oldConditions,
+    additionalInfo: oldAdditionalInfo,
+  } = useSelector((state: TRootState) => state.editPartner);
   const dispatch = useDispatch();
   const [fields, setFields] = useState({
     condition: '',
-    additionalInfo: '',
+    additionalInfo: isEditing ? oldAdditionalInfo : currentAdditionalInfo,
   });
 
   const handleFieldChange = (field: string, value: string) => {
@@ -29,15 +41,23 @@ export const PartnerInfo = () => {
 
   const addNewCondition = () => {
     if (fields.condition !== '') {
-      const resultConditions = [...currentConditions, fields.condition];
-      dispatch(setConditions(resultConditions));
+      if (isEditing) {
+        const resultConditions = [...oldConditions, fields.condition];
+        dispatch(setConditionsEditPartner(resultConditions));
+      } else {
+        const resultConditions = [...currentConditions, fields.condition];
+        dispatch(setConditionsNewPartner(resultConditions));
+      }
+
       handleFieldChange('condition', '');
     }
   };
 
   return (
     <>
-      <PartnerStapper partnerStep={Number(newPartnerStep)} />
+      <PartnerStapper
+        partnerStep={Number(isEditing ? editStep : newPartnerStep)}
+      />
       <PartnerInfoContainer>
         <Text fontSize={20}>Условия предоставления скидки:</Text>
         <Input
