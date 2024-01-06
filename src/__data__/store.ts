@@ -1,11 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { newPartnerReducer } from './slices/new-partner';
-import { editPartnerReducer } from './slices/edit-partner';
+import { persistStore } from 'redux-persist';
+import { persistedNewPartnerReducer } from './persistStore';
 import { partnerApi } from './services/api/partner';
+import { editPartnerReducer } from './slices/edit-partner';
 
 const rootReducer = combineReducers({
-  newPartner: newPartnerReducer,
+  newPartner: persistedNewPartnerReducer,
   editPartner: editPartnerReducer,
   [partnerApi.reducerPath]: partnerApi.reducer,
 });
@@ -18,4 +19,5 @@ export const store = configureStore({
     getDefaultMiddleware().concat(apiMiddleware),
 });
 
+export const persistor = persistStore(store);
 setupListeners(store.dispatch);

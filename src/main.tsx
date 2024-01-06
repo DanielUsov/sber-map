@@ -1,18 +1,21 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from './App.tsx';
-import { CSSReset } from './styles/index.ts';
-import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
-import { store } from './__data__/store.ts';
+import { PersistGate } from 'redux-persist/integration/react';
+import { App } from './App.tsx';
+import { persistor, store } from './__data__/store.ts';
+import { CSSReset } from './styles/index.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <CSSReset />
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <CSSReset />
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

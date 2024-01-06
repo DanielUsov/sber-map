@@ -81,7 +81,7 @@ export const EditPartner = () => {
       >
         {Number(step) >= 0 && Number(step) < 4 && (
           <>
-            {Number(step) === 0 ? <PartnerTitle /> : null}
+            {Number(step) === 0 ? <PartnerTitle isEditing /> : null}
             {Number(step) === 1 ? <PartnerInfo /> : null}
             {Number(step) === 2 ? <PartnerPlaces /> : null}
           </>
@@ -132,7 +132,7 @@ export const EditPartner = () => {
           isDisabled={false}
           onClick={handlerNext}
         >
-          {Number(step) === steps.length - 1 ? 'Создать' : 'Далее'}
+          {Number(step) === steps.length - 1 ? 'Сохранить' : 'Далее'}
         </Button>
       </div>
       <ModelView isOpen={isOpen} onClose={onClose} currentData={partnerData} />
