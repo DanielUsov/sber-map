@@ -7,18 +7,22 @@ export type TCoordinates = {
 export type TPlace = {
   address: string;
   coordinates: TCoordinates;
-};
-
-export type TPartnerWithPlacemarks = {
-  partnerId: string;
-  title: string;
-  places: TPlace[];
+  partner_id: string;
+  place_id: number;
 };
 
 export type TPartner = {
-  partnerId: string;
-  title: string;
-  conditions: string[];
   additionalInfo: string;
+  conditions: string[];
+  partnerId: string;
   places: TPlace[];
+  title: string;
 };
+
+// export type TPartner = {
+//   partnerId: string;
+//   title: string;
+//   conditions: string[];
+//   additionalInfo: string;
+//   places: TPlace[];
+// };
