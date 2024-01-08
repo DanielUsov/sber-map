@@ -1,17 +1,14 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQuery } from '../../../../utils/api';
-import { TPartner, TPartnerWithPlacemarks } from '../../../../@types/partners';
 import { Success } from '../../../../@types/api';
+import { TPartner } from '../../../../@types/partners';
+import { baseQuery } from '../../../../utils/api';
 
 export const partnerApi = createApi({
   reducerPath: 'partnerApi',
   baseQuery,
   endpoints: (builder) => ({
-    getPartnersPlacemarks: builder.query<TPartnerWithPlacemarks[], void>({
-      query: () => '/partners/placemarks',
-    }),
     getPartners: builder.query<TPartner[], void>({
-      query: () => '/partners',
+      query: () => '/api/v1/partners',
     }),
     createPartner: builder.mutation<Success, TPartner>({
       query: (partnerData) => ({
@@ -21,7 +18,7 @@ export const partnerApi = createApi({
       }),
     }),
     getPartnerById: builder.query<TPartner, string>({
-      query: (partnerId) => `/partner/${partnerId}`,
+      query: (partnerId) => `/api/v1/partners/${partnerId}`,
     }),
     updatePartner: builder.mutation<
       Success,
@@ -43,7 +40,6 @@ export const partnerApi = createApi({
 });
 
 export const {
-  useGetPartnersPlacemarksQuery,
   useGetPartnersQuery,
   useCreatePartnerMutation,
   useGetPartnerByIdQuery,

@@ -7,10 +7,10 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
-import { TPartnerWithPlacemarks, TPlace } from '../../@types/partners';
-import { useGetPartnersPlacemarksQuery } from '../../__data__/services/api/partner';
+import { TPartner, TPlace } from '../../@types/partners';
+import { useGetPartnerByIdQuery } from '../../__data__/services/api/partner';
 import {
   MainListWrapper,
   SberFullLogo,
@@ -19,32 +19,38 @@ import {
 } from '../../styles/main';
 import { ModelView } from '../modal-view/inex';
 
-export const MainList = () => {
-  const [searchValue, setSearchValue] = useState('');
-  const [PID, setPID] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const navigate = useNavigate();
-  const { data: partners, isError } = useGetPartnersPlacemarksQuery();
+type TMainListProps = {
+  data: TPartner[];
+};
 
-  const handleClick = (data: TPartnerWithPlacemarks) => {
+export const MainList = ({ data: partners }: TMainListProps) => {
+  const [searchValue, setSearchValue] = useState('');
+  const [PID, setPID] = useState('null');
+  const [partnerToMV, setPartnerToMV] = useState({});
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data: partner, refetch: refetchPartner } =
+    useGetPartnerByIdQuery(PID);
+
+  const navigate = useNavigate();
+
+  const handleClick = async (data: TPartner) => {
+    await setPID(data.partnerId);
+    await refetchPartner()
+      .unwrap()
+      .then((PartnerById) => {
+        setPartnerToMV(PartnerById);
+      });
     onOpen();
-    setPID(data.partnerId);
   };
 
   const handleSearch = (event: any) => {
     setSearchValue(event.target.value);
   };
 
-  const filteredPartner: TPartnerWithPlacemarks[] =
+  const filteredPartner: TPartner[] =
     searchValue !== '' && typeof partners !== 'undefined'
       ? partners.filter((partner) => partner.title.includes(searchValue))
       : partners || [];
-
-  useEffect(() => {
-    if (isError) {
-      // navigate('/error');
-    }
-  }, [isError]);
 
   return (
     <MainListWrapper>
@@ -65,7 +71,7 @@ export const MainList = () => {
           formNoValidate
         />
         <StyledList spacing={3}>
-          {filteredPartner.map((card: TPartnerWithPlacemarks) => (
+          {filteredPartner.map((card: any) => (
             <Card
               variant={'elevated'}
               size={'sm'}
@@ -100,7 +106,13 @@ export const MainList = () => {
           </ChakraLink>
         </div>
       </Box>
-      <ModelView isOpen={isOpen} onClose={onClose} PID={PID} />
+      {Object.keys(partnerToMV).length > 0 ? (
+        <ModelView
+          isOpen={isOpen}
+          onClose={onClose}
+          data={partnerToMV as TPartner}
+        />
+      ) : null}
     </MainListWrapper>
   );
 };
