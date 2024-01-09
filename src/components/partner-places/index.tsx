@@ -5,18 +5,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TPlace } from '../../@types/partners';
 import { TRootState } from '../../@types/redux';
 import { setPlaces } from '../../__data__/slices/new-partner';
+import { setPlaces as editSetPlaces } from '../../__data__/slices/edit-partner';
+
 import { PartnerContainer as PartnerPlacesContainer } from '../../styles/partner';
 import { PartnerСoordinatesContainer } from '../../styles/partner-places';
 import { Loader } from '../loader';
 import { PartnerStapper } from '../partner-stapper';
 
-export const PartnerPlaces = () => {
+type TPartnerPlacesProps = {
+  isEditing?: boolean;
+};
+
+export const PartnerPlaces = ({ isEditing = false }: TPartnerPlacesProps) => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const dispatch = useDispatch();
   const { step: newPartnerStep, places: newPartnerPlaces } = useSelector(
     (state: TRootState) => state.newPartner
   );
+  const { step: editPartnerStep, places: editPartnerPlaces } = useSelector(
+    (state: TRootState) => state.editPartner
+  );
   const fieldsInitState: TPlace = {
+    partner_id: '',
+    place_id: 0,
     address: '',
     coordinates: {
       latitude: 0,
@@ -47,13 +58,19 @@ export const PartnerPlaces = () => {
   };
 
   const handleClick = () => {
-    dispatch(setPlaces(newPartnerPlaces.concat(fields)));
+    dispatch(
+      isEditing
+        ? editSetPlaces(editPartnerPlaces.concat(fields))
+        : setPlaces(newPartnerPlaces.concat(fields))
+    );
     setFields(fieldsInitState);
   };
 
   return (
     <>
-      <PartnerStapper partnerStep={Number(newPartnerStep)} />
+      <PartnerStapper
+        partnerStep={Number(isEditing ? editPartnerStep : newPartnerStep)}
+      />
       <PartnerPlacesContainer
         style={{
           width: '50vw',
@@ -169,28 +186,30 @@ export const PartnerPlaces = () => {
                   groupByCoordinates: false,
                 }}
               >
-                {newPartnerPlaces.flatMap((place) => (
-                  <Placemark
-                    key={
-                      place.coordinates.latitude + place.coordinates.longitude
-                    }
-                    geometry={{
-                      type: 'Point',
-                      coordinates: [
-                        place.coordinates.latitude,
-                        place.coordinates.longitude,
-                      ],
-                    }}
-                    modules={[
-                      'geoObject.addon.balloon',
-                      'geoObject.addon.hint',
-                    ]}
-                    options={{
-                      iconLayout: 'default#image',
-                      iconImageHref: '/placemark.svg',
-                    }}
-                  />
-                ))}
+                {(isEditing ? editPartnerPlaces : newPartnerPlaces).flatMap(
+                  (place) => (
+                    <Placemark
+                      key={
+                        place.coordinates.latitude + place.coordinates.longitude
+                      }
+                      geometry={{
+                        type: 'Point',
+                        coordinates: [
+                          place.coordinates.latitude,
+                          place.coordinates.longitude,
+                        ],
+                      }}
+                      modules={[
+                        'geoObject.addon.balloon',
+                        'geoObject.addon.hint',
+                      ]}
+                      options={{
+                        iconLayout: 'default#image',
+                        iconImageHref: '/placemark.svg',
+                      }}
+                    />
+                  )
+                )}
               </Clusterer>
             </Map>
           </YMaps>

@@ -12,9 +12,12 @@ import {
 import { useEffect, useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { MdOutlineEdit } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { TPartner } from '../../@types/partners';
 import { useGetPartnersQuery } from '../../__data__/services/api/partner';
+import { clearEditPartnerState } from '../../__data__/slices/edit-partner';
+import { clearNewPartnerState } from '../../__data__/slices/new-partner';
 import { ModelView } from '../../components/modal-view/inex';
 import { useAuth } from '../../hooks/auth';
 import {
@@ -30,6 +33,7 @@ export const AllPartners = () => {
   const { setStatus } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { data: partners, isError, refetch } = useGetPartnersQuery();
 
   const handleClick = (dataL: TPartner) => {
@@ -64,6 +68,8 @@ export const AllPartners = () => {
 
   useEffect(() => {
     refetch();
+    dispatch(clearEditPartnerState());
+    dispatch(clearNewPartnerState());
   }, []);
 
   const filteredPartner: TPartner[] =
@@ -147,20 +153,19 @@ export const AllPartners = () => {
                 </AllPartnersTable>
               </AllPartnersTableContainer>
             </div>
-            {/* <ModelView isOpen={isOpen} onClose={onClose} PID={PID} isForm /> */}
             {Object.keys(partners).length > 0 ? (
               <ModelView isOpen={isOpen} onClose={onClose} data={partnerMV} />
             ) : null}
           </AdminAllPartnersWrapper>
           <Button
+            marginTop={'10.5%'}
             width={'14rem'}
-            height={'2rem'}
+            height={'3vh'}
             color="white"
-            float={'right'}
             marginRight={'8px'}
-            marginTop={'18vh'}
             bg={'#21a038'}
             _hover={{ bg: '#21a038' }}
+            float={'right'}
             onClick={handleCreate}
             rightIcon={<IoCreateOutline />}
           >

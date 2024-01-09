@@ -2,6 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { Success } from '../../../../@types/api';
 import { TPartner } from '../../../../@types/partners';
 import { baseQuery } from '../../../../utils/api';
+import { TNewPartner } from '../../../slices/new-partner';
 
 export const partnerApi = createApi({
   reducerPath: 'partnerApi',
@@ -10,9 +11,12 @@ export const partnerApi = createApi({
     getPartners: builder.query<TPartner[], void>({
       query: () => '/api/v1/partners',
     }),
-    createPartner: builder.mutation<Success, TPartner>({
+    createPartner: builder.mutation<
+      Success,
+      Pick<TPartner, Exclude<keyof TPartner, 'partnerId'>>
+    >({
       query: (partnerData) => ({
-        url: '/partner',
+        url: '/api/v1/partners',
         method: 'POST',
         body: partnerData,
       }),
@@ -20,12 +24,9 @@ export const partnerApi = createApi({
     getPartnerById: builder.query<TPartner, string>({
       query: (partnerId) => `/api/v1/partners/${partnerId}`,
     }),
-    updatePartner: builder.mutation<
-      Success,
-      { partnerID: string; partnerData: TPartner }
-    >({
-      query: ({ partnerID, partnerData }) => ({
-        url: `/partner/${partnerID}`,
+    updatePartner: builder.mutation<Success, any>({
+      query: (partnerData) => ({
+        url: `/api/v1/partners`,
         method: 'PUT',
         body: partnerData,
       }),

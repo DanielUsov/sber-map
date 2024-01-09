@@ -12,11 +12,13 @@ import { PartnerInfo } from '../../components/partner-info';
 import { PartnerPlaces } from '../../components/partner-places';
 import { PartnerTitle } from '../../components/partner-title';
 import { steps } from '../../config';
+import { useCreatePartnerMutation } from '../../__data__/services/api/partner';
 
 export const NewPartner = () => {
   const { step } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [createNewPartner, r] = useCreatePartnerMutation();
   const newPartnerData = useSelector((state: TRootState) => state.newPartner);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -25,7 +27,9 @@ export const NewPartner = () => {
     navigate('/admin/allPartners', { replace: true });
   };
 
-  const handlerCreate = () => {};
+  const handlerCreate = () => {
+    createNewPartner(newPartnerData);
+  };
 
   const handlerNext = () => {
     if (Number(step) === steps.length - 1) {
@@ -113,7 +117,7 @@ export const NewPartner = () => {
       <ModelView
         isOpen={isOpen}
         onClose={onClose}
-        currentData={newPartnerData}
+        data={newPartnerData!}
         isForm
       />
     </>

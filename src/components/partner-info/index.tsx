@@ -1,5 +1,5 @@
 import { Button, Input, Text, Textarea } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../../@types/redux';
 import {
@@ -52,6 +52,13 @@ export const PartnerInfo = ({ isEditing = false }: TPartnerInfoProps) => {
       handleFieldChange('condition', '');
     }
   };
+
+  useEffect(() => {
+    console.log(isEditing);
+
+    if (isEditing && oldAdditionalInfo)
+      handleFieldChange('additionalInfo', oldAdditionalInfo);
+  }, [isEditing, oldAdditionalInfo]);
 
   return (
     <>
