@@ -16,6 +16,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { TPartner } from '../../@types/partners';
 import { useGetPartnersQuery } from '../../__data__/services/api/partner';
 import { ModelView } from '../../components/modal-view/inex';
+import { useAuth } from '../../hooks/auth';
 import {
   AdminAllPartnersWrapper,
   AllPartnersTable,
@@ -23,17 +24,24 @@ import {
 } from '../../styles/admin';
 
 export const AllPartners = () => {
+  const [partnerMV, setPartnerMV] = useState<TPartner>();
   const [searchValue, setSearchValue] = useState('');
   const [PID, setPID] = useState('');
+  const { setStatus } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const { data: partners, isError, refetch } = useGetPartnersQuery();
 
-  console.log(partners);
-
   const handleClick = (dataL: TPartner) => {
     onOpen();
     setPID(dataL.partnerId);
+
+    if (partners) {
+      const findPartner = partners.find((element: TPartner, index) => {
+        if (element.partnerId === dataL.partnerId) return element;
+      });
+      setPartnerMV(findPartner!);
+    }
   };
 
   const handleEdit = (e: any, dataL: TPartner) => {
@@ -45,7 +53,10 @@ export const AllPartners = () => {
     setSearchValue(event.target.value);
   };
 
-  const handleExit = (event: any) => {};
+  const handleExit = (event: any) => {
+    setStatus(false);
+    navigate('/', { replace: true });
+  };
 
   const handleCreate = () => {
     navigate(`/admin/newPartner/0`);
@@ -56,14 +67,16 @@ export const AllPartners = () => {
   }, []);
 
   const filteredPartner: TPartner[] =
-    searchValue !== ''
-      ? partners?.filter((partner) => partner.title.includes(searchValue))
-      : partners;
+    searchValue !== '' && typeof partners !== 'undefined'
+      ? partners?.filter((partner: TPartner) =>
+          partner.title.includes(searchValue)
+        )
+      : partners || [];
 
   return (
     <>
       {isError ? <Navigate to="/error" /> : null}
-      {partners && filteredPartner && (
+      {partners && (
         <>
           <Button
             width={'6rem'}
@@ -136,7 +149,7 @@ export const AllPartners = () => {
             </div>
             {/* <ModelView isOpen={isOpen} onClose={onClose} PID={PID} isForm /> */}
             {Object.keys(partners).length > 0 ? (
-              <ModelView isOpen={isOpen} onClose={onClose} data={partners} />
+              <ModelView isOpen={isOpen} onClose={onClose} data={partnerMV} />
             ) : null}
           </AdminAllPartnersWrapper>
           <Button
