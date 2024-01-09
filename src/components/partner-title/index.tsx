@@ -1,10 +1,10 @@
 import { Input, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../../@types/redux';
-import { setTitle } from '../../__data__/slices/new-partner';
 import { PartnerContainer as PartnerTitleContainer } from '../../styles/partner';
 import { PartnerStapper } from '../partner-stapper';
+import { setTitle } from '../../__data__/slices/edit-partner';
 
 type TPartnerTitleProps = {
   isEditing?: boolean;
@@ -17,7 +17,7 @@ export const PartnerTitle = ({ isEditing = false }: TPartnerTitleProps) => {
   const { title: oldTitle, step: editStep } = useSelector(
     (state: TRootState) => state.editPartner
   );
-  const [currentTitle, setCurrentTitle] = useState<string>(
+  const [currentTitle, setCurrentTitle] = useState(
     isEditing ? oldTitle : newPartnerTitle
   );
   const dispatch = useDispatch();
@@ -26,6 +26,10 @@ export const PartnerTitle = ({ isEditing = false }: TPartnerTitleProps) => {
     setCurrentTitle(inputValue);
     dispatch(setTitle(inputValue));
   };
+
+  useEffect(() => {
+    if (isEditing && oldTitle) setCurrentTitle(oldTitle);
+  }, [isEditing, oldTitle]);
 
   return (
     <>

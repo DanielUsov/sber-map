@@ -12,15 +12,25 @@ import { PartnerInfo } from '../../components/partner-info';
 import { PartnerPlaces } from '../../components/partner-places';
 import { PartnerTitle } from '../../components/partner-title';
 import { steps } from '../../config';
-import { useGetPartnerByIdQuery } from '../../__data__/services/api/partner';
-import { setInit } from '../../__data__/slices/edit-partner';
+import {
+  useGetPartnerByIdQuery,
+  useUpdatePartnerMutation,
+} from '../../__data__/services/api/partner';
+import {
+  setAdditionalInfo,
+  setConditions,
+  setInit,
+  setPartnerId,
+  setPlaces,
+  setTitle,
+} from '../../__data__/slices/edit-partner';
 
 export const EditPartner = () => {
   const { id: partnerId, step } = useParams();
   const { data, isError } = useGetPartnerByIdQuery(partnerId ?? '');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [updatePartner] = useUpdatePartnerMutation();
   const partnerData = useSelector((state: TRootState) => state.editPartner);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -29,14 +39,18 @@ export const EditPartner = () => {
     navigate('/admin/allPartners', { replace: true });
   };
 
-  const handlerEdit = () => {};
+  const handlerEdit = () => {
+    updatePartner(partnerData);
+  };
 
   const handlerNext = () => {
     if (Number(step) === steps.length - 1) {
       handlerEdit();
       return navigate(`/admin/allPartners`, { replace: true });
     }
-    navigate(`/admin/newPartner/${Number(step) + 1}`, { replace: true });
+    navigate(`/admin/partner/${partnerId}/${Number(step) + 1}`, {
+      replace: true,
+    });
   };
 
   const chackCurrent = () => {
@@ -45,18 +59,13 @@ export const EditPartner = () => {
 
   useEffect(() => {
     if (data && partnerId) {
-      dispatch(
-        setInit({
-          partnerId: partnerId,
-          title: data.title,
-          conditions: data.conditions,
-          additionalInfo: data.additionalInfo,
-          places: data.places,
-          step: -1,
-        })
-      );
+      dispatch(setPartnerId(partnerId));
+      dispatch(setTitle(data.title));
+      dispatch(setConditions(data.conditions));
+      dispatch(setAdditionalInfo(data.additionalInfo));
+      dispatch(setPlaces(data.places));
     }
-  });
+  }, [data]);
 
   useEffect(() => {
     dispatch(setStep(Number(step) + 1));
@@ -82,8 +91,8 @@ export const EditPartner = () => {
         {Number(step) >= 0 && Number(step) < 4 && (
           <>
             {Number(step) === 0 ? <PartnerTitle isEditing /> : null}
-            {Number(step) === 1 ? <PartnerInfo /> : null}
-            {Number(step) === 2 ? <PartnerPlaces /> : null}
+            {Number(step) === 1 ? <PartnerInfo isEditing /> : null}
+            {Number(step) === 2 ? <PartnerPlaces isEditing /> : null}
           </>
         )}
       </div>
@@ -135,7 +144,7 @@ export const EditPartner = () => {
           {Number(step) === steps.length - 1 ? 'Сохранить' : 'Далее'}
         </Button>
       </div>
-      <ModelView isOpen={isOpen} onClose={onClose} currentData={partnerData} isForm/>
+      <ModelView isOpen={isOpen} onClose={onClose} data={partnerData} isForm />
     </>
   );
 };
