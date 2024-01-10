@@ -33,7 +33,7 @@ export const partnerApi = createApi({
     }),
     deletePartner: builder.mutation<Success, string>({
       query: (partnerID) => ({
-        url: `/partner/${partnerID}`,
+        url: `/api/v1/partners/${partnerID}`,
         method: 'DELETE',
       }),
     }),

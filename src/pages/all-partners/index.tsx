@@ -11,11 +11,14 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
-import { MdOutlineEdit } from 'react-icons/md';
+import { MdDelete, MdOutlineEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { TPartner } from '../../@types/partners';
-import { useGetPartnersQuery } from '../../__data__/services/api/partner';
+import {
+  useDeletePartnerMutation,
+  useGetPartnersQuery,
+} from '../../__data__/services/api/partner';
 import { clearEditPartnerState } from '../../__data__/slices/edit-partner';
 import { clearNewPartnerState } from '../../__data__/slices/new-partner';
 import { ModelView } from '../../components/modal-view/inex';
@@ -35,6 +38,7 @@ export const AllPartners = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data: partners, isError, refetch } = useGetPartnersQuery();
+  const [deletePartner] = useDeletePartnerMutation();
 
   const handleClick = (dataL: TPartner) => {
     onOpen();
@@ -64,6 +68,12 @@ export const AllPartners = () => {
 
   const handleCreate = () => {
     navigate(`/admin/newPartner/0`);
+  };
+
+  const handlerDelete = (e: any, partnerId: string) => {
+    e.stopPropagation();
+    deletePartner(partnerId);
+    refetch();
   };
 
   useEffect(() => {
@@ -127,6 +137,7 @@ export const AllPartners = () => {
                     <Tr>
                       <Th>Название компании партнера:</Th>
                       <Th></Th>
+                      <Th></Th>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -147,6 +158,16 @@ export const AllPartners = () => {
                             <MdOutlineEdit />
                           </IconButton>
                         </Td>
+                        <Td width={'81px'}>
+                          <IconButton
+                            _hover={{ bg: '#21A038' }}
+                            bg={'#F0F6FE'}
+                            aria-label={'Удалить'}
+                            onClick={(e) => handlerDelete(e, partner.partnerId)}
+                          >
+                            <MdDelete />
+                          </IconButton>
+                        </Td>
                       </Tr>
                     ))}
                   </Tbody>
@@ -158,9 +179,9 @@ export const AllPartners = () => {
             ) : null}
           </AdminAllPartnersWrapper>
           <Button
-            marginTop={'10.5%'}
+            marginTop={'18vh'}
             width={'14rem'}
-            height={'3vh'}
+            height={'4vh'}
             color="white"
             marginRight={'8px'}
             bg={'#21a038'}

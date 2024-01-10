@@ -1,8 +1,9 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TRootState } from '../../@types/redux';
+import { useCreatePartnerMutation } from '../../__data__/services/api/partner';
 import {
   clearNewPartnerState,
   setStep,
@@ -12,13 +13,13 @@ import { PartnerInfo } from '../../components/partner-info';
 import { PartnerPlaces } from '../../components/partner-places';
 import { PartnerTitle } from '../../components/partner-title';
 import { steps } from '../../config';
-import { useCreatePartnerMutation } from '../../__data__/services/api/partner';
 
 export const NewPartner = () => {
   const { step } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [createNewPartner, r] = useCreatePartnerMutation();
+  const [isCreated, setIsCreated] = useState<boolean>(false);
+  const [createNewPartner] = useCreatePartnerMutation();
   const newPartnerData = useSelector((state: TRootState) => state.newPartner);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -28,13 +29,19 @@ export const NewPartner = () => {
   };
 
   const handlerCreate = () => {
-    createNewPartner(newPartnerData);
+    if (newPartnerData.title.length > 0 && newPartnerData.places.length > 0) {
+      return createNewPartner(newPartnerData)
+        .unwrap()
+        .then(() => true)
+        .catch(() => false);
+    }
   };
 
   const handlerNext = () => {
     if (Number(step) === steps.length - 1) {
-      handlerCreate();
-      return navigate(`/admin/allPartners`, { replace: true });
+      return handlerCreate()
+        ? navigate(`/admin/allPartners`, { replace: true })
+        : null;
     }
     navigate(`/admin/newPartner/${Number(step) + 1}`, { replace: true });
   };
@@ -114,12 +121,14 @@ export const NewPartner = () => {
           {Number(step) === steps.length - 1 ? 'Создать' : 'Далее'}
         </Button>
       </div>
-      <ModelView
-        isOpen={isOpen}
-        onClose={onClose}
-        data={newPartnerData!}
-        isForm
-      />
+      {typeof newPartnerData !== 'undefined' && (
+        <ModelView
+          isOpen={isOpen}
+          onClose={onClose}
+          data={newPartnerData}
+          isForm
+        />
+      )}
     </>
   );
 };
