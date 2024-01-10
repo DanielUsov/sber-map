@@ -17,7 +17,7 @@ import { setPlaces } from '../../__data__/slices/edit-partner';
 export type ModelViewProps = {
   isOpen: any;
   onClose: any;
-  data?: TPartner;
+  data?: TPartner | Pick<TPartner, Exclude<keyof TPartner, 'partnerId'>>;
   isForm?: boolean;
 };
 

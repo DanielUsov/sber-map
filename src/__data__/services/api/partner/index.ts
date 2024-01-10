@@ -2,7 +2,6 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { Success } from '../../../../@types/api';
 import { TPartner } from '../../../../@types/partners';
 import { baseQuery } from '../../../../utils/api';
-import { TNewPartner } from '../../../slices/new-partner';
 
 export const partnerApi = createApi({
   reducerPath: 'partnerApi',
