@@ -11,7 +11,9 @@ export const useAuth = (): {
   };
 
   const getStatus = (): boolean => {
-    return sessionStorage.getItem('userAuthentication') === 'true';
+    return (
+      sessionStorage.getItem('userAuthentication') === 'true' && checkToken()
+    );
   };
 
   const setStatus = (status: boolean): void => {

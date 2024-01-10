@@ -6,6 +6,7 @@ import { MainPage } from './pages/main';
 import { NewPartner } from './pages/new-partner';
 import { SberLine } from './styles/sber-line';
 import { Error } from './pages/error';
+import { PrivateRouter } from './components/privat-router';
 
 export const App = () => {
   return (
@@ -17,9 +18,18 @@ export const App = () => {
           <Route path="admin">
             <Route index element={<Login />} />
             <Route path="login" element={<Login />} />
-            <Route path="allPartners" element={<AllPartners />} />
-            <Route path="partner/:id/:step" element={<EditPartner />} />
-            <Route path="newPartner/:step" element={<NewPartner />} />
+            <Route
+              path="allPartners"
+              element={<PrivateRouter element={<AllPartners />} />}
+            />
+            <Route
+              path="partner/:id/:step"
+              element={<PrivateRouter element={<EditPartner />} />}
+            />
+            <Route
+              path="newPartner/:step"
+              element={<PrivateRouter element={<NewPartner />} />}
+            />
           </Route>
           <Route path="error" element={<Error />} />
 
