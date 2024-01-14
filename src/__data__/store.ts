@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { persistStore } from 'redux-persist';
-import { persistedNewPartnerReducer } from './persistStore';
+import {
+  persistedEditPartnerReducer,
+  persistedNewPartnerReducer,
+} from './persistStore';
 import { partnerApi } from './services/api/partner';
-import { editPartnerReducer } from './slices/edit-partner';
 
 const rootReducer = combineReducers({
   newPartner: persistedNewPartnerReducer,
-  editPartner: editPartnerReducer,
+  editPartner: persistedEditPartnerReducer,
   [partnerApi.reducerPath]: partnerApi.reducer,
 });
 
