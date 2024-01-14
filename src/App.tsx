@@ -1,12 +1,12 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { PrivateRouter } from './components/privat-router';
 import { AllPartners } from './pages/all-partners';
 import { EditPartner } from './pages/edit-partner';
+import { Error } from './pages/error';
 import { Login } from './pages/login';
 import { MainPage } from './pages/main';
 import { NewPartner } from './pages/new-partner';
 import { SberLine } from './styles/sber-line';
-import { Error } from './pages/error';
-import { PrivateRouter } from './components/privat-router';
 
 export const App = () => {
   return (
@@ -32,7 +32,6 @@ export const App = () => {
             />
           </Route>
           <Route path="error" element={<Error />} />
-
           <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Route>
       </Routes>
