@@ -3,11 +3,11 @@ import { useAuth } from '../../../../hooks/auth';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/localhost' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080' }),
   endpoints: (builder) => ({
     login: builder.mutation<any, any>({
       query: (loginData) => ({
-        url: '/auth/login',
+        url: '/api/v1/auth/login',
         method: 'POST',
         body: {
           email: loginData.email,

@@ -25,7 +25,9 @@ export const Login = () => {
     if (fields.login !== '' && fields.password !== '') {
       singIn({ email: fields.login, password: fields.password })
         .unwrap()
-        .then(() => navigate(location.pathname + '/allPartners'));
+        .then(() => {
+          navigate(location.pathname + '/allPartners');
+        });
     }
   };
 
