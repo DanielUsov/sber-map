@@ -85,7 +85,7 @@ export const NewPartner = () => {
         <Button
           marginTop={'2%'}
           width={'6rem'}
-          height={'3vh'}
+          height={'4vh'}
           color="white"
           marginLeft={'8px'}
           bg={'#21a038'}
@@ -98,7 +98,7 @@ export const NewPartner = () => {
         <Button
           marginTop={'2%'}
           width={'16rem'}
-          height={'3vh'}
+          height={'4vh'}
           color="white"
           bg={'#21a038'}
           _hover={{ bg: '#21a038' }}
@@ -110,7 +110,7 @@ export const NewPartner = () => {
         <Button
           marginTop={'2%'}
           width={'6rem'}
-          height={'3vh'}
+          height={'4vh'}
           color="white"
           marginRight={'8px'}
           bg={'#21a038'}

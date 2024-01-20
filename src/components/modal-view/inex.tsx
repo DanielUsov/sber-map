@@ -10,9 +10,12 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { MdDelete } from 'react-icons/md';
-import { TPartner, TPlace } from '../../@types/partners';
 import { useDispatch } from 'react-redux';
-import { setPlaces } from '../../__data__/slices/edit-partner';
+import { TPartner, TPlace } from '../../@types/partners';
+import { setPlaces as setEditPartnerPlaces } from '../../__data__/slices/edit-partner';
+import { setPlaces as setNewPartnerPlaces } from '../../__data__/slices/new-partner';
+
+import { useLocation } from 'react-router-dom';
 
 export type ModelViewProps = {
   isOpen: any;
@@ -27,15 +30,21 @@ export const ModelView = ({
   data: partner,
   isForm = false,
 }: ModelViewProps) => {
+  const location = useLocation();
   const dispatch = useDispatch();
+
   const handlerDeletePlace = (placeAdress: string) => {
     const placeIndex = partner?.places.findIndex(
       (element) => placeAdress === element.address
     );
-    const newArray: TPlace[] | undefined = partner?.places.filter(
+    const newPlacesList: TPlace[] | undefined = partner?.places.filter(
       (_, index) => index !== (placeIndex !== undefined ? placeIndex : -1)
     );
-    dispatch(setPlaces(newArray!));
+    dispatch(
+      location.pathname.includes('newPartner')
+        ? setNewPartnerPlaces(newPlacesList)
+        : setEditPartnerPlaces(newPlacesList)
+    );
   };
 
   return (

@@ -1,5 +1,5 @@
 import { Button, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../__data__/services/api/auth';
 import { LoginForm, LoginWrapper } from '../../styles/login';
@@ -7,7 +7,7 @@ import { LoginForm, LoginWrapper } from '../../styles/login';
 export const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [singIn] = useLoginMutation();
+  const [singIn, { isError }] = useLoginMutation();
   const [fields, setFields] = useState({
     login: '',
     password: '',
@@ -20,14 +20,16 @@ export const Login = () => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (fields.login !== '' && fields.password !== '') {
-      singIn({ email: fields.login, password: fields.password })
-        .unwrap()
-        .then(() => {
-          navigate(location.pathname + '/allPartners');
-        });
+      await singIn({ email: fields.login, password: fields.password }).then(() => {
+        navigate(location.pathname + '/allPartners');
+      })
+
+      // if (!isError) {
+      //   navigate(location.pathname + '/allPartners');
+      // }
     }
   };
 

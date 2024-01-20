@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { useAuth } from '../../../../hooks/auth';
+import { TAuthResponse } from '../../../../@types/api';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080' }),
   endpoints: (builder) => ({
-    login: builder.mutation<any, any>({
+    login: builder.mutation<TAuthResponse, any>({
       query: (loginData) => ({
         url: '/api/v1/auth/login',
         method: 'POST',
@@ -14,9 +15,9 @@ export const authApi = createApi({
           password: loginData.password,
         },
       }),
-      transformResponse: (response: any): any => {
+      transformResponse: (response: TAuthResponse): TAuthResponse => {
         const { initSetup } = useAuth();
-        initSetup(response.newAccessToken);
+        initSetup(response.accessToken);
         return response;
       },
     }),

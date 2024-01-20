@@ -1,5 +1,11 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { Clusterer, Map, Placemark, YMaps } from '@pbe/react-yandex-maps';
+import {
+  Clusterer,
+  Map,
+  Placemark,
+  YMaps,
+  ZoomControl,
+} from '@pbe/react-yandex-maps';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { YMapWrapper } from '../../styles/main';
@@ -51,6 +57,7 @@ export const YMap = ({ data: partners }: TYMapProps) => {
             style={{ height: '100%', width: '100%', float: 'right' }}
             onLoad={handleMapLoad}
           >
+            <ZoomControl options={{ position: { top: 400, right: 10 } }} />
             <Clusterer
               options={{
                 preset: 'islands#invertedVioletClusterIcons',
