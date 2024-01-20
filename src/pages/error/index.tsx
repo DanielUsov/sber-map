@@ -1,4 +1,13 @@
+import { Button } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 export const Error = () => {
+  const navigate = useNavigate();
+
+  const handlerBackPageRoute = () => {
+    navigate('/');
+  };
+
   return (
     <div
       style={{
@@ -28,6 +37,25 @@ export const Error = () => {
       >
         Сервис верменно недоступен, повторите попытку позже
       </p>
+      <Button
+        _hover={{
+          bg: '#E5FFE4',
+          color: '#21A038',
+          border: '2px solid',
+          borderColor: '#21A038',
+        }}
+        sx={{
+          marginTop: '2%',
+          backgroundColor: '#21A038',
+          color: '#FFFFFF',
+          borderColor: '#21A038',
+          width: '14%',
+          height: '4%',
+        }}
+        onClick={handlerBackPageRoute}
+      >
+        Вернуться на главную
+      </Button>
     </div>
   );
 };
