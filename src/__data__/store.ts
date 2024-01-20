@@ -5,15 +5,17 @@ import {
   persistedEditPartnerReducer,
   persistedNewPartnerReducer,
 } from './persistStore';
+import { authApi } from './services/api/auth';
 import { partnerApi } from './services/api/partner';
 
 const rootReducer = combineReducers({
   newPartner: persistedNewPartnerReducer,
   editPartner: persistedEditPartnerReducer,
   [partnerApi.reducerPath]: partnerApi.reducer,
+  [authApi.reducerPath]: authApi.reducer,
 });
 
-const apiMiddleware: any[] = [partnerApi.middleware];
+const apiMiddleware: any[] = [partnerApi.middleware, authApi.middleware];
 
 export const store = configureStore({
   reducer: rootReducer,
