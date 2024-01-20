@@ -3,10 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TRootState } from '../../@types/redux';
-import {
-  clearNewPartnerState,
-  setStep,
-} from '../../__data__/slices/new-partner';
+import { clearNewPartnerState, setStep } from '../../__data__/slices/new-partner';
 import { ModelView } from '../../components/modal-view/inex';
 import { PartnerInfo } from '../../components/partner-info';
 import { PartnerPlaces } from '../../components/partner-places';
@@ -27,7 +24,11 @@ import {
 
 export const EditPartner = () => {
   const { id: partnerId, step } = useParams();
-  const { data, isError } = useGetPartnerByIdQuery(partnerId ?? '');
+  const {
+    data,
+    isError,
+    refetch: refetchEditPartner,
+  } = useGetPartnerByIdQuery(partnerId ?? '');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [updatePartner] = useUpdatePartnerMutation();
@@ -76,6 +77,10 @@ export const EditPartner = () => {
       navigate('/error');
     }
   }, [isError]);
+
+  useEffect(() => {
+    refetchEditPartner();
+  });
 
   return (
     <>
