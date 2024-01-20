@@ -12,8 +12,14 @@ import {
 import { MdDelete } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { TPartner, TPlace } from '../../@types/partners';
-import { setPlaces as setEditPartnerPlaces } from '../../__data__/slices/edit-partner';
-import { setPlaces as setNewPartnerPlaces } from '../../__data__/slices/new-partner';
+import {
+  setConditions as setEditPartnerConditions,
+  setPlaces as setEditPartnerPlaces,
+} from '../../__data__/slices/edit-partner';
+import {
+  setConditions as setNewPartnerConditions,
+  setPlaces as setNewPartnerPlaces,
+} from '../../__data__/slices/new-partner';
 
 import { useLocation } from 'react-router-dom';
 
@@ -33,6 +39,12 @@ export const ModelView = ({
   const location = useLocation();
   const dispatch = useDispatch();
 
+  const removeFromArrayByIndex = (arr: string[], index: number) => {
+    const arrClone = [...arr];
+    arrClone.splice(index, 1);
+    return arrClone;
+  };
+
   const handlerDeletePlace = (placeAdress: string) => {
     const placeIndex = partner?.places.findIndex(
       (element) => placeAdress === element.address
@@ -44,6 +56,15 @@ export const ModelView = ({
       location.pathname.includes('newPartner')
         ? setNewPartnerPlaces(newPlacesList)
         : setEditPartnerPlaces(newPlacesList)
+    );
+  };
+
+  const handlerConditionDelete = (conditionIndex: number) => {
+    const newConditionsList = removeFromArrayByIndex(partner?.conditions, conditionIndex);
+    dispatch(
+      location.pathname.includes('newPartner')
+        ? setNewPartnerConditions(newConditionsList)
+        : setEditPartnerConditions(newConditionsList)
     );
   };
 
@@ -65,7 +86,33 @@ export const ModelView = ({
             <Text fontSize="18">Условия предоставления скидки:</Text>
             {partner?.conditions && partner?.conditions.length > 0 ? (
               partner?.conditions.map((condition, index) => (
-                <Text fontSize="16">{`${index + 1}. ${condition} `}</Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom:
+                      partner.conditions[partner.conditions.length - 1] === condition
+                        ? '1%'
+                        : '0',
+                  }}
+                >
+                  <Text fontSize="16">{`${index + 1}. ${condition} `}</Text>
+                  {isForm ? (
+                    <IconButton
+                      marginLeft={'10px'}
+                      width={'2%'}
+                      height={'26px'}
+                      _hover={{ bg: '#21A038' }}
+                      bg={'#F0F6FE'}
+                      aria-label={'Редактировать'}
+                      onClick={() => handlerConditionDelete(index)}
+                    >
+                      <MdDelete />
+                    </IconButton>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               ))
             ) : (
               <Text fontSize="16">{'условий нет'}</Text>
