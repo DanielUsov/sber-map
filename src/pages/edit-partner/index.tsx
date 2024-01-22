@@ -79,8 +79,10 @@ export const EditPartner = () => {
   }, [isError]);
 
   useEffect(() => {
-    refetchEditPartner();
-  });
+    if (partnerId) {
+      refetchEditPartner();
+    }
+  }, []);
 
   return (
     <>
