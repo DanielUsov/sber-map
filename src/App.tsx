@@ -11,7 +11,7 @@ import { SberLine } from './styles/sber-line';
 export const App = () => {
   return (
     <BrowserRouter>
-      <SberLine />
+      {/* <SberLine /> */}
       <Routes>
         <Route path={'/'}>
           <Route index element={<MainPage />} />

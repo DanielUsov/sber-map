@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetPartnersQuery } from '../../__data__/services/api/partner';
 import { MainList } from '../../components/main-list';
 import { YMap } from '../../components/y-map';
-import { Wrapper } from '../../styles/main';
+import { MainListWrapper, Wrapper, YMapWrapper } from '../../styles/main';
 
 export const MainPage = () => {
   const { data: partners, isError } = useGetPartnersQuery();
@@ -18,8 +18,12 @@ export const MainPage = () => {
   return (
     <Wrapper>
       <>
-        <MainList data={partners!} />
-        <YMap data={partners!} />
+        <MainListWrapper>
+          <MainList data={partners!} />
+        </MainListWrapper>
+        <YMapWrapper>
+          <YMap data={partners!} />
+        </YMapWrapper>
       </>
     </Wrapper>
   );

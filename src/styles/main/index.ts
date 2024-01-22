@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
 `;
 
 export const MainListWrapper = styled.div`
-  width: 34.375%;
+  width: 35%;
   height: 90vh;
   display: flex;
   align-items: center;
@@ -14,12 +14,12 @@ export const MainListWrapper = styled.div`
 `;
 
 export const YMapWrapper = styled.div`
-  width: 65.625%;
+  width: 65%;
   height: 100vh;
 `;
 
 export const StyledList = styled(List)`
-  width: 30em;
+  width: 100%;
   max-height: 70%;
   overflow-y: auto;
   &::-webkit-scrollbar {
@@ -46,6 +46,6 @@ export const SberFullLogo = styled(Image)`
 `;
 
 export const SearchInput = styled(Input)`
-  width: 30em;
+  width: 30%;
   height: 48px;
 `;

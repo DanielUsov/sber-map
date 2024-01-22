@@ -6,6 +6,7 @@ import {
   Link as ChakraLink,
   Text,
   useDisclosure,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
@@ -28,10 +29,8 @@ export const MainList = ({ data: partners }: TMainListProps) => {
   const [PID, setPID] = useState('null');
   const [partnerToMV, setPartnerToMV] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data: partner, refetch: refetchPartner } =
-    useGetPartnerByIdQuery(PID);
-
-  const navigate = useNavigate();
+  const [isSmallerThan1280] = useMediaQuery('(max-width: 1280px)');
+  const { data: partner, refetch: refetchPartner } = useGetPartnerByIdQuery(PID);
 
   const handleClick = async (data: TPartner) => {
     await setPID(data.partnerId);
@@ -53,10 +52,11 @@ export const MainList = ({ data: partners }: TMainListProps) => {
       : partners || [];
 
   return (
-    <MainListWrapper>
+    <>
       <SberFullLogo src="/SBER-KIB-logo.svg" alt={'SBER logo'} />
       <Box
         h={'80%'}
+        width={'70%'}
         sx={{
           marginTop: '4rem',
         }}
@@ -74,22 +74,19 @@ export const MainList = ({ data: partners }: TMainListProps) => {
           {filteredPartner.map((card: any) => (
             <Card
               variant={'elevated'}
-              size={'sm'}
               background={'#F0F6FE'}
               borderRadius={'10px'}
               _hover={{ bg: '#E5FFE4' }}
               onClick={() => handleClick(card)}
             >
               <CardHeader>
-                <Text fontSize="18">{card.title}</Text>
+                <Text fontSize={isSmallerThan1280 ? '16' : '18'}>{card.title}</Text>
               </CardHeader>
               <CardBody>
                 {card.places.map((place: TPlace) => (
                   <Text
-                    key={
-                      place.coordinates.latitude + place.coordinates.longitude
-                    }
-                    fontSize="16"
+                    key={place.coordinates.latitude + place.coordinates.longitude}
+                    fontSize={isSmallerThan1280 ? '14' : '16'}
                   >
                     {place.address}
                   </Text>
@@ -100,19 +97,15 @@ export const MainList = ({ data: partners }: TMainListProps) => {
         </StyledList>
         <div style={{ marginTop: '0.6vh' }}>
           <ChakraLink as={ReactRouterLink} to="/admin">
-            <Text color={'#9A9A9A'} fontSize="10">
+            <Text color={'#9A9A9A'} fontSize={isSmallerThan1280 ? '8' : '10'}>
               Вы администратор? Перейдите в панель администратора
             </Text>
           </ChakraLink>
         </div>
       </Box>
       {Object.keys(partnerToMV).length > 0 ? (
-        <ModelView
-          isOpen={isOpen}
-          onClose={onClose}
-          data={partnerToMV as TPartner}
-        />
+        <ModelView isOpen={isOpen} onClose={onClose} data={partnerToMV as TPartner} />
       ) : null}
-    </MainListWrapper>
+    </>
   );
 };
