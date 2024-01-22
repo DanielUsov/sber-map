@@ -56,7 +56,7 @@ export const MainList = ({ data: partners }: TMainListProps) => {
     <MainListWrapper>
       <SberFullLogo src="/SBER-KIB-logo.svg" alt={'SBER logo'} />
       <Box
-        h={'100%'}
+        h={'80%'}
         sx={{
           marginTop: '4rem',
         }}
