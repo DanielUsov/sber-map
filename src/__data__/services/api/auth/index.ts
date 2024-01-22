@@ -4,7 +4,7 @@ import { TAuthResponse } from '../../../../@types/api';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://185.196.117.66:8080' }),
   endpoints: (builder) => ({
     login: builder.mutation<TAuthResponse, any>({
       query: (loginData) => ({
