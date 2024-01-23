@@ -1,4 +1,4 @@
-export type Success = {
+export type TSuccess = {
   message: string;
 };
 

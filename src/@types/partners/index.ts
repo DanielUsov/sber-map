@@ -18,11 +18,3 @@ export type TPartner = {
   places: TPlace[];
   title: string;
 };
-
-// export type TPartner = {
-//   partnerId: string;
-//   title: string;
-//   conditions: string[];
-//   additionalInfo: string;
-//   places: TPlace[];
-// };

@@ -15,7 +15,6 @@ export const NewPartner = () => {
   const { step } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isCreated, setIsCreated] = useState<boolean>(false);
   const [createNewPartner] = useCreatePartnerMutation();
   const newPartnerData = useSelector((state: TRootState) => state.newPartner);
   const { isOpen, onOpen, onClose } = useDisclosure();

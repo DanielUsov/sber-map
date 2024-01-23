@@ -31,8 +31,7 @@ import {
 
 export const AllPartners = () => {
   const [partnerMV, setPartnerMV] = useState<TPartner>();
-  const [searchValue, setSearchValue] = useState('');
-  const [PID, setPID] = useState('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const { setStatus } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
@@ -42,7 +41,6 @@ export const AllPartners = () => {
 
   const handleClick = (dataL: TPartner) => {
     onOpen();
-    setPID(dataL.partnerId);
 
     if (partners) {
       const findPartner = partners.find((element: TPartner, index) => {
@@ -84,9 +82,7 @@ export const AllPartners = () => {
 
   const filteredPartner: TPartner[] =
     searchValue !== '' && typeof partners !== 'undefined'
-      ? partners?.filter((partner: TPartner) =>
-          partner.title.includes(searchValue)
-        )
+      ? partners?.filter((partner: TPartner) => partner.title.includes(searchValue))
       : partners || [];
 
   return (

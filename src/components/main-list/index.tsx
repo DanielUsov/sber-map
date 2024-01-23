@@ -9,14 +9,13 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import { TPartner, TPlace } from '../../@types/partners';
 import { useGetPartnerByIdQuery } from '../../__data__/services/api/partner';
 import {
-  MainListWrapper,
   SberFullLogo,
   SearchInput,
-  StyledList,
+  StyledList
 } from '../../styles/main';
 import { ModelView } from '../modal-view/inex';
 
@@ -26,11 +25,11 @@ type TMainListProps = {
 
 export const MainList = ({ data: partners }: TMainListProps) => {
   const [searchValue, setSearchValue] = useState('');
-  const [PID, setPID] = useState('null');
+  const [PID, setPID] = useState<string>('');
   const [partnerToMV, setPartnerToMV] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSmallerThan1280] = useMediaQuery('(max-width: 1280px)');
-  const { data: partner, refetch: refetchPartner } = useGetPartnerByIdQuery(PID);
+  const { refetch: refetchPartner } = useGetPartnerByIdQuery(PID);
 
   const handleClick = async (data: TPartner) => {
     await setPID(data.partnerId);

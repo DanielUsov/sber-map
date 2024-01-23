@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { Success } from '../../../../@types/api';
+import { TSuccess } from '../../../../@types/api';
 import { TPartner } from '../../../../@types/partners';
 import { baseQuery } from '../../../../utils/api';
 
@@ -11,7 +11,7 @@ export const partnerApi = createApi({
       query: () => '/api/v1/partners',
     }),
     createPartner: builder.mutation<
-      Success,
+      TSuccess,
       Pick<TPartner, Exclude<keyof TPartner, 'partnerId'>>
     >({
       query: (partnerData) => ({
@@ -23,14 +23,14 @@ export const partnerApi = createApi({
     getPartnerById: builder.query<TPartner, string>({
       query: (partnerId) => `/api/v1/partners/${partnerId}`,
     }),
-    updatePartner: builder.mutation<Success, any>({
+    updatePartner: builder.mutation<TSuccess, any>({
       query: (partnerData) => ({
         url: `/api/v1/partners`,
         method: 'PUT',
         body: partnerData,
       }),
     }),
-    deletePartner: builder.mutation<Success, string>({
+    deletePartner: builder.mutation<TSuccess, string>({
       query: (partnerID) => ({
         url: `/api/v1/partners/${partnerID}`,
         method: 'DELETE',
