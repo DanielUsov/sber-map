@@ -1,4 +1,4 @@
-import { Button, FormLabel, Input, Stack } from '@chakra-ui/react';
+import { Button, FormLabel, Input, Stack, useMediaQuery } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../__data__/services/api/auth';
@@ -8,6 +8,7 @@ import { LoginForm, LoginWrapper } from '../../styles/login';
 export const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isSmallerThan1280] = useMediaQuery('(max-width: 1280px)');
   const [singIn, { isSuccess, isLoading }] = useLoginMutation();
   const [fields, setFields] = useState({
     login: '',
@@ -39,27 +40,18 @@ export const Login = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <LoginForm
-          width={'43vh'}
-          height={'32vh'}
-          sx={{
-            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.20)',
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
-        >
+        <LoginForm>
           <FormLabel
             sx={{
-              fontSize: 24,
+              fontSize: isSmallerThan1280 ? 20 : 24,
               margin: 0,
-              marginTop: '4vh',
+              marginTop: '12%',
               color: '#21A038',
             }}
           >
             Авторизация
           </FormLabel>
-          <Stack spacing={4} width={'80%'} sx={{ marginTop: '5vh' }}>
+          <Stack spacing={4} width={'80%'} sx={{ marginTop: '10%' }}>
             <Input
               id="login"
               type="text"
@@ -91,7 +83,9 @@ export const Login = () => {
               borderColor: '#21A038',
             }}
             sx={{
-              marginTop: '4%',
+              height: '12%',
+              marginTop: '6%',
+              marginBottom: '2%',
               backgroundColor: '#21A038',
               color: '#FFFFFF',
               borderColor: '#21A038',
