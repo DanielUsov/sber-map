@@ -83,13 +83,16 @@ export const Login = () => {
               borderColor: '#21A038',
             }}
             sx={{
-              height: '12%',
+              height: isSmallerThan1280 ? '12%' : '85%',
+              minHeight: '30px',
               marginTop: '6%',
               marginBottom: '2%',
               backgroundColor: '#21A038',
               color: '#FFFFFF',
               borderColor: '#21A038',
-              width: '35%',
+              width: '30%',
+              fontSize: isSmallerThan1280 ? '16' : '18',
+              minWidth: '50px',
             }}
             onClick={handleSubmit}
           >

@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TRootState } from '../../@types/redux';
 import { useCreatePartnerMutation } from '../../__data__/services/api/partner';
-import {
-  clearNewPartnerState,
-  setStep,
-} from '../../__data__/slices/new-partner';
+import { clearNewPartnerState, setStep } from '../../__data__/slices/new-partner';
 import { ModelView } from '../../components/modal-view/inex';
 import { PartnerInfo } from '../../components/partner-info';
 import { PartnerPlaces } from '../../components/partner-places';
@@ -39,9 +36,7 @@ export const NewPartner = () => {
 
   const handlerNext = () => {
     if (Number(step) === steps.length - 1) {
-      return handlerCreate()
-        ? navigate(`/admin/allPartners`, { replace: true })
-        : null;
+      return handlerCreate() ? navigate(`/admin/allPartners`, { replace: true }) : null;
     }
     navigate(`/admin/newPartner/${Number(step) + 1}`, { replace: true });
   };
@@ -83,7 +78,7 @@ export const NewPartner = () => {
         }}
       >
         <Button
-          marginTop={'2%'}
+          marginTop={'1%'}
           width={'6rem'}
           height={'4vh'}
           color="white"
@@ -96,7 +91,7 @@ export const NewPartner = () => {
           Отмена
         </Button>
         <Button
-          marginTop={'2%'}
+          marginTop={'1%'}
           width={'16rem'}
           height={'4vh'}
           color="white"
@@ -108,7 +103,7 @@ export const NewPartner = () => {
           Посмотреть текущий вариант
         </Button>
         <Button
-          marginTop={'2%'}
+          marginTop={'1%'}
           width={'6rem'}
           height={'4vh'}
           color="white"
@@ -122,12 +117,7 @@ export const NewPartner = () => {
         </Button>
       </div>
       {typeof newPartnerData !== 'undefined' && (
-        <ModelView
-          isOpen={isOpen}
-          onClose={onClose}
-          data={newPartnerData}
-          isForm
-        />
+        <ModelView isOpen={isOpen} onClose={onClose} data={newPartnerData} isForm />
       )}
     </>
   );

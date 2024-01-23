@@ -113,7 +113,7 @@ export const EditPartner = () => {
         }}
       >
         <Button
-          marginTop={'2%'}
+          marginTop={'1%'}
           width={'6rem'}
           height={'4vh'}
           color="white"
@@ -126,7 +126,7 @@ export const EditPartner = () => {
           Отмена
         </Button>
         <Button
-          marginTop={'2%'}
+          marginTop={'1%'}
           width={'16rem'}
           height={'4vh'}
           color="white"
@@ -138,7 +138,7 @@ export const EditPartner = () => {
           Посмотреть текущий вариант
         </Button>
         <Button
-          marginTop={'2%'}
+          marginTop={'1%'}
           width={'6rem'}
           height={'4vh'}
           color="white"

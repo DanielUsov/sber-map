@@ -12,7 +12,6 @@ export const LoginWrapper = styled.div`
 export const LoginForm = chakra(FormControl, {
   baseStyle: {
     width: '20%',
-    height: '30%',
     backgroundColor: '#f0f6fe',
     borderRadius: '10px',
     boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.20)',
